@@ -54,6 +54,7 @@ This library is based on:
 * [Inscription](https://github.com/MartinvanZ/Inscription/) by [Martin van Zuilekom](https://github.com/MartinvanZ/)
 
 Other contributors:
+* [Andrew Chen](https://github.com/andrewachen)
 * You? Pull requests welcome!
 
 
