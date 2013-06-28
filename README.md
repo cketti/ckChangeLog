@@ -58,6 +58,7 @@ This library is based on:
 
 Other contributors:
 * [Andrew Chen](https://github.com/andrewachen)
+* [Artur Dryomov](https://github.com/ming13)
 * You? Pull requests welcome!
 
 
