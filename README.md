@@ -17,29 +17,32 @@ Repository at <https://github.com/cketti/ckChangeLog>.
 
 1. Create the master change log in `res/raw/changelog.xml`. Formatted like this:
 
-        <?xml version="1.0" encoding="utf-8"?>
-        <changelog>
-            <release version="1.1" versioncode="11" >
-                <change>Totally new and shiny version</change>
-            </release>
-            <release version="1.0" versioncode="10" >
-                <change>Fixed: A bug fix</change>
-                <change>Some other changes I can't quite remember</change>
-            </release>
-            <release version="0.1" versioncode="1">
-                <change>First release</change>
-            </release>
-        </changelog>
-	
+  ```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <changelog>
+      <release version="1.1" versioncode="11" >
+          <change>Totally new and shiny version</change>
+      </release>
+      <release version="1.0" versioncode="10" >
+          <change>Fixed: A bug fix</change>
+          <change>Some other changes I can't quite remember</change>
+      </release>
+      <release version="0.1" versioncode="1">
+          <change>First release</change>
+      </release>
+  </changelog>
+  ```
+
 2. Create translations of this file under language-specific versions of `res/xml`, e.g. `res/xml-de`.
 
 3. Display the change log dialog by putting the following code in your activity's `onCreate()` method:
 
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
-        }
-
+  ```java
+  ChangeLog cl = new ChangeLog(this);
+  if (cl.isFirstRun()) {
+      cl.getLogDialog().show();
+  }
+  ```
 
 ## Changelog
 
