@@ -33,7 +33,7 @@ Repository at <https://github.com/cketti/ckChangeLog>.
   </changelog>
   ```
 
-2. Create translations of this changelog_master.xml file in files named changelog.xml under
+2. Create translations of this `changelog_master.xml` file in files named `changelog.xml` under
 language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
 3. Display the change log dialog by putting the following code in your activity's `onCreate()` method:
