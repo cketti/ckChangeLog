@@ -9,7 +9,7 @@ This library provides an easy way to display a change log in your app.
 
  * Uses a simple XML file as source
  * Supports partial translations
- 
+
 Repository at <https://github.com/cketti/ckChangeLog>.
 
 
@@ -60,6 +60,7 @@ This library is based on:
 Other contributors:
 * [Andrew Chen](https://github.com/andrewachen)
 * [Artur Dryomov](https://github.com/ming13)
+* [zjw](https://github.com/zjw)
 * You? Pull requests welcome!
 
 
