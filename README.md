@@ -47,6 +47,10 @@ language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
 ## Changelog
 
+### Version 1.0.0
+* **Breaking change!** Moved master translation from `res/raw/changelog.xml` to `res/xml/changelog_master.xml`
+* Added German translation of the sample app
+
 ### Version 0.1
 * Initial release
 
