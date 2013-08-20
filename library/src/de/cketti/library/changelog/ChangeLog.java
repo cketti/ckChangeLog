@@ -241,6 +241,14 @@ public class ChangeLog {
     }
 
     /**
+     * Call if you don't want to show the change log for this app version. Future calls to {@link ChangeLog#isFirstRun()} and {@link ChangeLog#isFirstRunEver()} will return {@code false} for the
+     * current app version.
+     */
+    public void dontShowLogDialog() {
+        updateVersionInPreferences();
+    }
+
+    /**
      * Get the "What's New" dialog.
      *
      * @return An AlertDialog displaying the changes since the previous installed version of your
