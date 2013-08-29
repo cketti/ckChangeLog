@@ -241,6 +241,18 @@ public class ChangeLog {
     }
 
     /**
+     * Skip the "What's new" dialog for this app version.
+     *
+     * <p>
+     * Future calls to {@link #isFirstRun()} and {@link #isFirstRunEver()} will return {@code false}
+     * for the current app version.
+     * </p>
+     */
+    public void skipLogDialog() {
+        updateVersionInPreferences();
+    }
+
+    /**
      * Get the "What's New" dialog.
      *
      * @return An AlertDialog displaying the changes since the previous installed version of your
