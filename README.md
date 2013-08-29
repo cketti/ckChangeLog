@@ -65,6 +65,8 @@ Other contributors:
 * [Andrew Chen](https://github.com/andrewachen)
 * [Artur Dryomov](https://github.com/ming13)
 * [zjw](https://github.com/zjw)
+* [pyler](https://github.com/pylerSM)
+* [Bill Donahue](https://github.com/bdonahue)
 * You? Pull requests welcome!
 
 
