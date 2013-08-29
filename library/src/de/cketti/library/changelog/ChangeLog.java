@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Christian Ketterer (cketti)
+ * Copyright (C) 2012-2013 Christian Ketterer (cketti)
  *
  * Portions Copyright (C) 2012 Martin van Zuilekom (http://martin.cubeactive.com)
  *
