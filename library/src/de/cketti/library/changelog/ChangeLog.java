@@ -77,9 +77,9 @@ public class ChangeLog {
      * Default CSS styles used to format the change log.
      */
     private static final String DEFAULT_CSS =
-            "h1 { margin-left: 0px; font-size: 1.2em;}" +
-            "li { margin-left: 0px;}" +
-            "ul { padding-left: 2em;}";
+            "h1 { margin-left: 0px; font-size: 1.2em; }" + "\n" +
+            "li { margin-left: 0px; }" + "\n" +
+            "ul { padding-left: 2em; }";
 
 
     /**
