@@ -241,10 +241,14 @@ public class ChangeLog {
     }
 
     /**
-     * Call if you don't want to show the change log for this app version. Future calls to {@link ChangeLog#isFirstRun()} and {@link ChangeLog#isFirstRunEver()} will return {@code false} for the
-     * current app version.
+     * Skip the "What's new" dialog for this app version.
+     *
+     * <p>
+     * Future calls to {@link #isFirstRun()} and {@link #isFirstRunEver()} will return {@code false}
+     * for the current app version.
+     * </p>
      */
-    public void dontShowLogDialog() {
+    public void skipLogDialog() {
         updateVersionInPreferences();
     }
 
