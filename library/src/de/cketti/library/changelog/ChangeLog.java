@@ -358,39 +358,21 @@ public class ChangeLog {
      *
      * @return The (partial) change log.
      */
-    private String getLog(boolean full) {
+    protected String getLog(boolean full) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<html><head><style type=\"text/css\">");
         sb.append(mCss);
         sb.append("</style></head><body>");
 
-        Resources resources = mContext.getResources();
+        String versionFormat = mContext.getResources().getString(R.string.changelog_version_format);
 
-        // Read master change log from xml/changelog_master.xml
-        XmlResourceParser xml = mContext.getResources().getXml(R.xml.changelog_master);
-        SparseArray<ReleaseItem> defaultChangelog;
-        try {
-            defaultChangelog = readChangeLog(xml, full);
-        } finally {
-            xml.close();
-        }
+        SparseArray<ReleaseItem> changelog = getMergedChangeLog(full);
 
-        // Read localized change log from xml[-lang]/changelog.xml
-        XmlResourceParser resXml = mContext.getResources().getXml(R.xml.changelog);
-        SparseArray<ReleaseItem> changelog;
-        try {
-            changelog = readChangeLog(resXml, full);
-        } finally {
-            resXml.close();
-        }
-
-        String versionFormat = resources.getString(R.string.changelog_version_format);
-
-        // Get all version codes from the master change log...
-        List<Integer> versions = new ArrayList<Integer>(defaultChangelog.size());
-        for (int i = 0, len = defaultChangelog.size(); i < len; i++) {
-            int key = defaultChangelog.keyAt(i);
+        // Get all version codes from the change log...
+        List<Integer> versions = new ArrayList<Integer>(changelog.size());
+        for (int i = 0, len = changelog.size(); i < len; i++) {
+            int key = changelog.keyAt(i);
             versions.add(key);
         }
 
@@ -399,10 +381,7 @@ public class ChangeLog {
 
         for (Integer version : versions) {
             int key = version.intValue();
-
-            // Use release information from localized change log and fall back to the master file
-            // if necessary.
-            ReleaseItem release = changelog.get(key, defaultChangelog.get(key));
+            ReleaseItem release = changelog.get(key);
 
             sb.append("<h1>");
             sb.append(String.format(versionFormat, release.versionName));
@@ -418,6 +397,75 @@ public class ChangeLog {
         sb.append("</body></html>");
 
         return sb.toString();
+    }
+
+    /**
+     * Returns the merged change log.
+     *
+     * @param full
+     *         If this is {@code true} the full change log is returned. Otherwise only changes for
+     *         versions newer than the last version are returned.
+     *
+     * @return A {@code SparseArray} containing {@link ReleaseItem}s representing the (partial)
+     *         change log.
+     */
+    protected SparseArray<ReleaseItem> getMergedChangeLog(boolean full) {
+        SparseArray<ReleaseItem> masterChangelog = getMasterChangeLog(full);
+        SparseArray<ReleaseItem> changelog = getLocalizedChangeLog(full);
+
+        SparseArray<ReleaseItem> mergedChangeLog =
+                new SparseArray<ReleaseItem>(masterChangelog.size());
+
+        for (int i = 0, len = masterChangelog.size(); i < len; i++) {
+            int key = masterChangelog.keyAt(i);
+
+            // Use release information from localized change log and fall back to the master file
+            // if necessary.
+            ReleaseItem release = changelog.get(key, masterChangelog.get(key));
+
+            mergedChangeLog.put(key, release);
+        }
+
+        return mergedChangeLog;
+    }
+
+    /**
+     * Read master change log from {@code xml/changelog_master.xml}
+     *
+     * @see #readChangeLogFromResource(int, boolean)
+     */
+    protected SparseArray<ReleaseItem> getMasterChangeLog(boolean full) {
+        return readChangeLogFromResource(R.xml.changelog_master, full);
+    }
+
+    /**
+     * Read localized change log from {@code xml[-lang]/changelog.xml}
+     *
+     * @see #readChangeLogFromResource(int, boolean)
+     */
+    protected SparseArray<ReleaseItem> getLocalizedChangeLog(boolean full) {
+        return readChangeLogFromResource(R.xml.changelog, full);
+    }
+
+    /**
+     * Read change log from XML resource file.
+     *
+     * @param resId
+     *         Resource ID of the XML file to read the change log from.
+     * @param full
+     *         If this is {@code true} the full change log is returned. Otherwise only changes for
+     *         versions newer than the last version are returned.
+     *
+     * @return A {@code SparseArray} containing {@link ReleaseItem}s representing the (partial)
+     *         change log.
+     */
+    protected final SparseArray<ReleaseItem> readChangeLogFromResource(int resId, boolean full) {
+        XmlResourceParser xml = mContext.getResources().getXml(resId);
+        try {
+            return readChangeLog(xml, full);
+        } finally {
+            xml.close();
+        }
     }
 
     /**
