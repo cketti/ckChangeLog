@@ -10,4 +10,9 @@
         android:showAsAction="never"
         android:title="@string/menu_full_changelog"/>
 
+    <item
+        android:id="@+id/menu_fdroid"
+        android:showAsAction="never"
+        android:title="F-Droid"/>
+
 </menu>
