@@ -8,4 +8,9 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
+    <!-- Dark theme. -->
+    <style name="DarkTheme" parent="android:Theme.Holo">
+        <!-- API 11 theme customizations can go here. -->
+    </style>
+
 </resources>
