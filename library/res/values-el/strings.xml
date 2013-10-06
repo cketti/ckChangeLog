@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="changelog_full_title">Αλλαγές</string>
+    <string name="changelog_title">Τι Είναι Καινούργιο</string>
+    <string name="changelog_ok_button">Εντάξει</string>
+    <string name="changelog_show_full">Περισσότερα…</string>
+
+    <string name="changelog_version_format">Έκδοση <xliff:g id="version_name">%s</xliff:g></string>
+</resources>
