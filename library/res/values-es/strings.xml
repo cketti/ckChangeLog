@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="changelog_full_title">Registro de cambios</string>
+    <string name="changelog_title">Qué hay de nuevo</string>
+    <string name="changelog_ok_button">Aceptar</string>
+    <string name="changelog_show_full">Más…</string>
+
+    <string name="changelog_version_format">Versión <xliff:g id="version_name">%s</xliff:g></string>
+</resources>
