@@ -72,6 +72,7 @@ Other contributors:
 * [pyler](https://github.com/pylerSM)
 * [Bill Donahue](https://github.com/bdonahue)
 * [Mike Argyriou](https://github.com/micharg)
+* [Sloy](https://github.com/Sloy)
 * You? Pull requests welcome!
 
 
