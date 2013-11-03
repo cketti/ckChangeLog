@@ -5,7 +5,7 @@
     <string name="hello_world">Dies ist die Beispiel-App für die Bibliothek ckChangeLog.
     Öffne das Menü, um herauszufinden was für Dialoge zur Anzeige der letzten Änderungen zur Verfügung stehen.</string>
 
-    <string name="menu_whats_new">@string/changelog_title</string>
-    <string name="menu_full_changelog">@string/changelog_full_title</string>
+    <string name="menu_whats_new">Das ist neu</string>
+    <string name="menu_full_changelog">Alle Änderungen</string>
 
 </resources>
