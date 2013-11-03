@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ckChangeLog Sample</string>
+    <string name="hello_world">This is the sample app for the ckChangeLog library. Check out the menu for the different dialog types.</string>
+
+    <string name="menu_whats_new">What\'s New</string>
+    <string name="menu_full_changelog">Full ChangeLog</string>
+
+</resources>

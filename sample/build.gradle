@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19"
+}
+
+dependencies {
+    compile project(':ckChangeLog')
+    compile 'com.android.support:support-v4:19.0.0'
+}
+
+
