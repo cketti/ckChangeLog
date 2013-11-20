@@ -66,13 +66,7 @@ This library is based on:
 * [Inscription](https://github.com/MartinvanZ/Inscription/) by [Martin van Zuilekom](https://github.com/MartinvanZ/)
 
 Other contributors:
-* [Andrew Chen](https://github.com/andrewachen)
-* [Artur Dryomov](https://github.com/ming13)
-* [zjw](https://github.com/zjw)
-* [pyler](https://github.com/pylerSM)
-* [Bill Donahue](https://github.com/bdonahue)
-* [Mike Argyriou](https://github.com/micharg)
-* [Sloy](https://github.com/Sloy)
+* [See here](https://github.com/cketti/ckChangeLog/graphs/contributors)
 * You? Pull requests welcome!
 
 
