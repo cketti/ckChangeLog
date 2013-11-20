@@ -35,6 +35,7 @@ package de.cketti.library.changelog;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -46,7 +47,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -358,52 +358,18 @@ public class ChangeLog {
      *
      * @return The (partial) change log.
      */
-    private String getLog(boolean full) {
+    protected String getLog(boolean full) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<html><head><style type=\"text/css\">");
         sb.append(mCss);
         sb.append("</style></head><body>");
 
-        Resources resources = mContext.getResources();
+        String versionFormat = mContext.getResources().getString(R.string.changelog_version_format);
 
-        // Read master change log from xml/changelog_master.xml
-        XmlResourceParser xml = mContext.getResources().getXml(R.xml.changelog_master);
-        SparseArray<ReleaseItem> defaultChangelog;
-        try {
-            defaultChangelog = readChangeLog(xml, full);
-        } finally {
-            xml.close();
-        }
+        List<ReleaseItem> changelog = getChangeLog(full);
 
-        // Read localized change log from xml[-lang]/changelog.xml
-        XmlResourceParser resXml = mContext.getResources().getXml(R.xml.changelog);
-        SparseArray<ReleaseItem> changelog;
-        try {
-            changelog = readChangeLog(resXml, full);
-        } finally {
-            resXml.close();
-        }
-
-        String versionFormat = resources.getString(R.string.changelog_version_format);
-
-        // Get all version codes from the master change log...
-        List<Integer> versions = new ArrayList<Integer>(defaultChangelog.size());
-        for (int i = 0, len = defaultChangelog.size(); i < len; i++) {
-            int key = defaultChangelog.keyAt(i);
-            versions.add(key);
-        }
-
-        // ... and sort them (newest version first).
-        Collections.sort(versions, Collections.reverseOrder());
-
-        for (Integer version : versions) {
-            int key = version.intValue();
-
-            // Use release information from localized change log and fall back to the master file
-            // if necessary.
-            ReleaseItem release = changelog.get(key, defaultChangelog.get(key));
-
+        for (ReleaseItem release : changelog) {
             sb.append("<h1>");
             sb.append(String.format(versionFormat, release.versionName));
             sb.append("</h1><ul>");
@@ -418,6 +384,79 @@ public class ChangeLog {
         sb.append("</body></html>");
 
         return sb.toString();
+    }
+
+    /**
+     * Returns the merged change log.
+     *
+     * @param full
+     *         If this is {@code true} the full change log is returned. Otherwise only changes for
+     *         versions newer than the last version are returned.
+     *
+     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the (partial)
+     *         change log.
+     *
+     * @see #getChangeLogComparator()
+     */
+    public List<ReleaseItem> getChangeLog(boolean full) {
+        SparseArray<ReleaseItem> masterChangelog = getMasterChangeLog(full);
+        SparseArray<ReleaseItem> changelog = getLocalizedChangeLog(full);
+
+        List<ReleaseItem> mergedChangeLog =
+                new ArrayList<ReleaseItem>(masterChangelog.size());
+
+        for (int i = 0, len = masterChangelog.size(); i < len; i++) {
+            int key = masterChangelog.keyAt(i);
+
+            // Use release information from localized change log and fall back to the master file
+            // if necessary.
+            ReleaseItem release = changelog.get(key, masterChangelog.get(key));
+
+            mergedChangeLog.add(release);
+        }
+
+        Collections.sort(mergedChangeLog, getChangeLogComparator());
+
+        return mergedChangeLog;
+    }
+
+    /**
+     * Read master change log from {@code xml/changelog_master.xml}
+     *
+     * @see #readChangeLogFromResource(int, boolean)
+     */
+    protected SparseArray<ReleaseItem> getMasterChangeLog(boolean full) {
+        return readChangeLogFromResource(R.xml.changelog_master, full);
+    }
+
+    /**
+     * Read localized change log from {@code xml[-lang]/changelog.xml}
+     *
+     * @see #readChangeLogFromResource(int, boolean)
+     */
+    protected SparseArray<ReleaseItem> getLocalizedChangeLog(boolean full) {
+        return readChangeLogFromResource(R.xml.changelog, full);
+    }
+
+    /**
+     * Read change log from XML resource file.
+     *
+     * @param resId
+     *         Resource ID of the XML file to read the change log from.
+     * @param full
+     *         If this is {@code true} the full change log is returned. Otherwise only changes for
+     *         versions newer than the last version are returned.
+     *
+     * @return A {@code SparseArray} containing {@link ReleaseItem}s representing the (partial)
+     *         change log.
+     */
+    protected final SparseArray<ReleaseItem> readChangeLogFromResource(int resId, boolean full) {
+        XmlResourceParser xml = mContext.getResources().getXml(resId);
+        try {
+            return readChangeLog(xml, full);
+        } finally {
+            xml.close();
+        }
     }
 
     /**
@@ -510,9 +549,31 @@ public class ChangeLog {
     }
 
     /**
+     * Returns a {@link Comparator} that specifies the sort order of the {@link ReleaseItem}s.
+     *
+     * <p>
+     * The default implementation returns the items in reverse order (latest version first).
+     * </p>
+     */
+    protected Comparator<ReleaseItem> getChangeLogComparator() {
+        return new Comparator<ReleaseItem>() {
+            @Override
+            public int compare(ReleaseItem lhs, ReleaseItem rhs) {
+                if (lhs.versionCode < rhs.versionCode) {
+                    return 1;
+                } else if (lhs.versionCode > rhs.versionCode) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        };
+    }
+
+    /**
      * Container used to store information about a release/version.
      */
-    protected static class ReleaseItem {
+    public static class ReleaseItem {
         /**
          * Version code of the release.
          */
