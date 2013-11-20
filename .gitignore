@@ -26,3 +26,8 @@ proguard.cfg
 
 #OSX
 .DS_Store
+
+#Gradle
+.gradle
+build
+gradle.properties
