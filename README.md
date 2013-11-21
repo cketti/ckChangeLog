@@ -7,6 +7,8 @@ This library provides an easy way to display a change log in your app.
 
 ## Features
 
+ * Displays changes since the last app update
+ * Can display the complete change log history
  * Uses a simple XML file as source
  * Supports partial translations
 
