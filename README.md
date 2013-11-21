@@ -47,6 +47,14 @@ language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
 ## Changelog
 
+### Version 1.2.0
+* Made constant `DEFAULT_CSS` public
+* Changed internals to make it easier to read the change log from different sources
+* Added public method `getChangeLog(boolean)` that returns a list of `ReleaseItem`s
+* Changed minSdkVersion to 4
+* Switched to Gradle as build system
+* Added Greek, Spanish, Polish, and Russian translation
+
 ### Version 1.1.0
 * Added method `skipLogDialog()`
 * Added Slovak and German translation
