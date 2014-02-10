@@ -51,7 +51,7 @@ language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
 The easiest way to add ckChangeLog to your project is via Gradle. Just add the following lines to your `build.gradle`:
 
-```
+```groovy
 dependencies {
     compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
 }
@@ -59,7 +59,7 @@ dependencies {
 
 To tell Gradle where to find the library, make sure `build.gradle` also contains this:
 
-```
+```groovy
 repositories {
     mavenCentral()
 }
