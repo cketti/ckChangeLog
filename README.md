@@ -53,7 +53,7 @@ The easiest way to add ckChangeLog to your project is via Gradle. Just add the f
 
 ```groovy
 dependencies {
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.0'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.1'
 }
 ```
 
@@ -67,6 +67,10 @@ repositories {
 
 
 ## Changelog
+
+### Version 1.2.1
+* Add support for [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
+* Fix build scripts so Javadoc JAR is properly created
 
 ### Version 1.2.0
 * Made constant `DEFAULT_CSS` public
