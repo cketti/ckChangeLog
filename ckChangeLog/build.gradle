@@ -35,5 +35,5 @@ project.ext {
     ]
 }
 
-//apply from: '../android-mvn-push.gradle'
+apply from: '../android-mvn-push.gradle'
 
