@@ -4,15 +4,15 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.13.2'
     }
 }
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.1"
 }
 
 project.ext {
@@ -35,5 +35,5 @@ project.ext {
     ]
 }
 
-apply from: '../android-mvn-push.gradle'
+//apply from: '../android-mvn-push.gradle'
 
