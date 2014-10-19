@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Meta data to make ckChangeLog show up when using AboutLibraries - https://github.com/mikepenz/AboutLibraries -->
+    <string name="define_ckChangeLog"></string>
+    <string name="library_ckChangeLog_author">cketti</string>
+    <string name="library_ckChangeLog_authorWebsite">http://cketti.de/</string>
+    <string name="library_ckChangeLog_libraryName">ckChangeLog</string>
+    <string name="library_ckChangeLog_libraryDescription">An Android Library to display a Change Log</string>
+    <string name="library_ckChangeLog_libraryVersion">1.2.1</string>
+    <string name="library_ckChangeLog_libraryWebsite">https://github.com/cketti/ckChangeLog</string>
+    <string name="library_ckChangeLog_licenseVersion">Apache Version 2.0</string>
+    <string name="library_ckChangeLog_licenseId">apache_2_0</string>
+    <string name="library_ckChangeLog_isOpenSource">true</string>
+    <string name="library_ckChangeLog_repositoryLink">https://github.com/cketti/ckChangeLog</string>
+</resources>
