@@ -19,7 +19,7 @@ android {
         versionName "1.0"
 
         minSdkVersion 7
-        targetSdkVersion 17
+        targetSdkVersion 21
     }
 }
 
