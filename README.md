@@ -65,6 +65,16 @@ repositories {
 }
 ```
 
+## Customize labels
+
+In order to change the labels of the dialog add the following items to your `strings.xml`:
+
+```
+  <string name="changelog_full_title">Change Log</string>
+  <string name="changelog_title">What\'s New</string>
+  <string name="changelog_ok_button">OK</string>
+  <string name="changelog_show_full">More…</string>
+```
 
 ## Changelog
 
