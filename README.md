@@ -110,7 +110,7 @@ This library is based on:
 
 Other contributors:
 * [See here](https://github.com/cketti/ckChangeLog/graphs/contributors)
-* You? Pull requests welcome!
+* You? Please create pull requests against the [dev](https://github.com/cketti/ckChangeLog/tree/dev) branch
 
 
 ## License
