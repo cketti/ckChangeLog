@@ -11,6 +11,7 @@ This library provides an easy way to display a change log in your app.
  * Can display the complete change log history
  * Uses a simple XML file as source
  * Supports partial translations
+ * Easily extendable to use something other than a dialog
 
 Repository at <https://github.com/cketti/ckChangeLog>.
 
