@@ -194,7 +194,7 @@ public class ChangeLog {
      *         second time this version of the app is launched (more precisely: the second time
      *         {@code ChangeLog} is instantiated).
      *
-     * @see AndroidManifest.xml#android:versionCode
+     * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vcode">android:versionCode</a>
      */
     public int getLastVersionCode() {
         return mLastVersionCode;
@@ -205,7 +205,7 @@ public class ChangeLog {
      *
      * @return The version code of this app as described in the manifest.
      *
-     * @see AndroidManifest.xml#android:versionCode
+     * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vcode">android:versionCode</a>
      */
     public int getCurrentVersionCode() {
         return mCurrentVersionCode;
@@ -216,7 +216,7 @@ public class ChangeLog {
      *
      * @return The version name of this app as described in the manifest.
      *
-     * @see AndroidManifest.xml#android:versionName
+     * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vname">android:versionName</a>
      */
     public String getCurrentVersionName() {
         return mCurrentVersionName;
