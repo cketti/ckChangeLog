@@ -54,7 +54,7 @@ The easiest way to add ckChangeLog to your project is via Gradle. Just add the f
 
 ```groovy
 dependencies {
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.1'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
 }
 ```
 
@@ -78,6 +78,9 @@ In order to change the labels of the dialog add the following items to your `str
 ```
 
 ## Changelog
+
+### Version 1.2.2 (2015-01-09)
+* Added Ukrainian translation
 
 ### Version 1.2.1
 * Add support for [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
