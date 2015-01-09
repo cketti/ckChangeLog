@@ -58,6 +58,7 @@ import android.webkit.WebView;
 /**
  * Display a dialog showing a full or partial (What's New) change log.
  */
+@SuppressWarnings("UnusedDeclaration")
 public class ChangeLog {
     /**
      * Tag that is used when sending error/debug messages to the log.
