@@ -2,9 +2,8 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 afterEvaluate { project ->
-    def android_manifest = new XmlParser(false, false).parseText(new File(project.projectDir, 'src/main/AndroidManifest.xml').getText())
-    project.version = android_manifest.'@android:versionName'
-    project.group = android_manifest.'@package'
+    project.version = android.defaultConfig.versionName
+    project.group = project.pom.group
 
     uploadArchives {
         repositories {
