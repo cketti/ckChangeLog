@@ -1,3 +1,7 @@
+if (!(hasProperty("nexusUsername") && hasProperty("nexusPassword"))) {
+    return;
+}
+
 apply plugin: 'maven'
 apply plugin: 'signing'
 

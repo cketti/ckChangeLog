@@ -1,0 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+
+ext {
+    propBuildToolsVersion = "21.1.2"
+    propCompileSdkVersion = 21
+}
