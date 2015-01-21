@@ -1,4 +1,4 @@
-if(! (hasProperty("nexusUsername") && hasProperty("nexusPassword"))) {
+if (!(hasProperty("nexusUsername") && hasProperty("nexusPassword"))) {
     return;
 }
 
