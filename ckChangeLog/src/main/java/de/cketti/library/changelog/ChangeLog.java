@@ -78,22 +78,9 @@ public class ChangeLog {
     protected static final int NO_VERSION = -1;
 
     /**
-     * Default CSS styles used to format the change log.
-     */
-    public static final String DEFAULT_CSS = "h1 { margin-left: 0px; font-size: 1.2em; }" + "\n" +
-            "li { margin-left: 0px; }" + "\n" +
-            "ul { padding-left: 2em; }";
-
-
-    /**
      * Context that is used to access the resources and to create the ChangeLog dialogs.
      */
     protected final Context mContext;
-
-    /**
-     * Contains the CSS rules used to format the change log.
-     */
-    protected final String mCss;
 
     /**
      * Last version code read from {@code SharedPreferences} or {@link #NO_VERSION}.
@@ -116,7 +103,7 @@ public class ChangeLog {
      */
     protected interface ChangeLogTag {
 
-        static final String NAME = "changelog";
+        String NAME = "changelog";
     }
 
     /**
@@ -124,9 +111,9 @@ public class ChangeLog {
      */
     protected interface ReleaseTag {
 
-        static final String NAME                   = "release";
-        static final String ATTRIBUTE_VERSION      = "version";
-        static final String ATTRIBUTE_VERSION_CODE = "versioncode";
+        String NAME                   = "release";
+        String ATTRIBUTE_VERSION      = "version";
+        String ATTRIBUTE_VERSION_CODE = "versioncode";
     }
 
     /**
@@ -134,7 +121,7 @@ public class ChangeLog {
      */
     protected interface ChangeTag {
 
-        static final String NAME = "change";
+        String NAME = "change";
     }
 
     /**
@@ -143,17 +130,7 @@ public class ChangeLog {
      * @param context Context that is used to access the resources and to create the ChangeLog dialogs.
      */
     public ChangeLog(Context context) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context), DEFAULT_CSS);
-    }
-
-    /**
-     * Create a {@code ChangeLog} instance using the default {@link SharedPreferences} file.
-     *
-     * @param context Context that is used to access the resources and to create the ChangeLog dialogs.
-     * @param css     CSS styles that will be used to format the change log.
-     */
-    public ChangeLog(Context context, String css) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context), css);
+        this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     /**
@@ -161,12 +138,9 @@ public class ChangeLog {
      *
      * @param context     Context that is used to access the resources and to create the ChangeLog dialogs.
      * @param preferences {@code SharedPreferences} instance that is used to persist the last version code.
-     * @param css         CSS styles used to format the change log (excluding {@code <style>} and
-     *                    {@code </style>}).
      */
-    public ChangeLog(Context context, SharedPreferences preferences, String css) {
+    public ChangeLog(Context context, SharedPreferences preferences) {
         mContext = context;
-        mCss = css;
 
         // Get last version code
         mLastVersionCode = preferences.getInt(VERSION_KEY, NO_VERSION);
@@ -276,22 +250,11 @@ public class ChangeLog {
      * @return A dialog containing the (partial) change log.
      */
     protected MaterialDialog getDialog(boolean full) {
-//        wv.loadDataWithBaseURL(null, getLog(full), "text/html", "UTF-8", null);
-
         MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext);
-        builder.title(mContext.getResources()
-                              .getString(full ? R.string.changelog_full_title : R.string.changelog_title));
+        builder.title(mContext.getResources().getString(full ? R.string.changelog_full_title : R.string.changelog_title));
         builder.cancelable(false);
         builder.positiveText(mContext.getResources().getString(R.string.changelog_ok_button));
         builder.callback(new ChangelogButtonCallback());
-//        MaterialDialog.ListCallback listCallback = new MaterialDialog.ListCallback() {
-//
-//            @Override
-//            public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
-//                Log.d("ChangeLog", "Clicked position " + i);
-//            }
-//        };
-//        builder.adapter(new ChangelogListAdapter(mContext, getChangeLog(full)), listCallback);
         builder.customView(R.layout.dialog_layout, false);
 
         if (!full) {
@@ -302,7 +265,6 @@ public class ChangeLog {
         MaterialDialog dialog = builder.build();
 
         ChangelogListAdapter adapter = new ChangelogListAdapter(mContext, getChangeLog(full));
-//        assert dialog.getCustomView() != null;
         ((StickyListHeadersListView) dialog.getCustomView()).setAdapter(adapter);
 
         return dialog;
@@ -331,62 +293,7 @@ public class ChangeLog {
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt(VERSION_KEY, mCurrentVersionCode);
 
-        // TODO: Update preferences from a background thread
-        editor.commit();
-    }
-
-    /**
-     * Get changes since last version as HTML string.
-     *
-     * @return HTML string containing the changes since the previous installed version of your app
-     * (What's New).
-     */
-    public String getLog() {
-        return getLog(false);
-    }
-
-    /**
-     * Get full change log as HTML string.
-     *
-     * @return HTML string containing the full change log.
-     */
-    public String getFullLog() {
-        return getLog(true);
-    }
-
-    /**
-     * Get (partial) change log as HTML string.
-     *
-     * @param full If this is {@code true} the full change log is returned. Otherwise only changes for
-     *             versions newer than the last version are returned.
-     * @return The (partial) change log.
-     */
-    protected String getLog(boolean full) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<html><head><style type=\"text/css\">");
-        sb.append(mCss);
-        sb.append("</style></head><body>");
-
-        String versionFormat = mContext.getResources().getString(R.string.changelog_version_format);
-
-        List<ReleaseItem> changelog = getChangeLog(full);
-
-        for (ReleaseItem release : changelog) {
-            sb.append("<h1>");
-            sb.append(String.format(versionFormat, release.versionName));
-            sb.append("</h1><ul>");
-            for (String change : release.changes) {
-                sb.append("<li>");
-                sb.append(change);
-                sb.append("</li>");
-            }
-            sb.append("</ul>");
-        }
-
-        sb.append("</body></html>");
-
-        return sb.toString();
+        editor.apply();
     }
 
     /**

@@ -1,7 +1,6 @@
 package de.cketti.library.changelog;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,12 @@ public class ChangelogListAdapter extends BaseAdapter implements StickyListHeade
 
     private Context        context;
     private LayoutInflater inflater;
-//        private List<ChangeLog.ReleaseItem> releases;
     private List<Change> changes = new ArrayList<>();
 
     private class Change {
+
+        int    versionCode;
+        String versionName, changeText;
 
         private Change(int versionCode, String versionName, String changeText) {
             this.versionCode = versionCode;
@@ -28,14 +29,11 @@ public class ChangelogListAdapter extends BaseAdapter implements StickyListHeade
             this.changeText = changeText;
         }
 
-        int    versionCode;
-        String versionName, changeText;
     }
 
     public ChangelogListAdapter(Context context, List<ChangeLog.ReleaseItem> releases) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-//        this.releases = releases;
         for (ChangeLog.ReleaseItem release : releases) {
             for (String change : release.changes) {
                 changes.add(new Change(release.versionCode, release.versionName, change));
@@ -69,16 +67,6 @@ public class ChangelogListAdapter extends BaseAdapter implements StickyListHeade
     }
 
     @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
     public int getCount() {
         return changes.size();
     }
@@ -100,23 +88,13 @@ public class ChangelogListAdapter extends BaseAdapter implements StickyListHeade
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        return null;
-//        ViewHolder holder;
-
         TextView changeText;
 
         if (convertView == null) {
-//            holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.change_list_item, parent, false);
-//            holder.text = (TextView) convertView.findViewById(R.id.text);
-//            convertView.setTag(holder);
         }
 
         changeText = (TextView) convertView.findViewById(R.id.changeText);
-//        else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-
         changeText.setText(changes.get(position).changeText);
 
         return convertView;

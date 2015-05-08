@@ -10,5 +10,5 @@
     android:paddingBottom="8dp"
     android:textColor="#333333"
     android:textSize="18sp"
-    tools:background="#FFFFFF"
+    android:background="#DDDDDD"
     tools:text="Version 1.1.0"/>
