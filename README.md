@@ -1,7 +1,6 @@
 # ckChangeLog - An Android Library to display a Change Log
 
-![Screenshot](screenshot_1.png)
-![Screenshot](screenshot_2.png)
+![Screenshot](http://i.imgur.com/5U6xzvk.png)
 
 This library provides an easy way to display a change log in your app.
 

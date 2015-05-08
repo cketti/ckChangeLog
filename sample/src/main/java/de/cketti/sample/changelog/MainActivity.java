@@ -1,12 +1,11 @@
 package de.cketti.sample.changelog;
 
-import de.cketti.library.changelog.ChangeLog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import de.cketti.library.changelog.ChangeLog;
 
 
 public class MainActivity extends FragmentActivity {
@@ -31,10 +30,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_whats_new: {
-                new DarkThemeChangeLog(this).getLogDialog().show();
-                break;
-            }
+//            case R.id.menu_whats_new: {
+//                new DarkThemeChangeLog(this).getLogDialog().show();
+//                break;
+//            }
             case R.id.menu_full_changelog: {
                 new ChangeLog(this).getFullLogDialog().show();
                 break;
@@ -44,15 +43,15 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
-    /**
-     * Example that shows how to create a themed dialog.
-     */
-    public static class DarkThemeChangeLog extends ChangeLog {
-        public static final String DARK_THEME_CSS =
-                "body { color: #ffffff; background-color: #282828; }" + "\n" + DEFAULT_CSS;
-
-        public DarkThemeChangeLog(Context context) {
-            super(new ContextThemeWrapper(context, R.style.DarkTheme), DARK_THEME_CSS);
-        }
-    }
+//    /**
+//     * Example that shows how to create a themed dialog.
+//     */
+//    public static class DarkThemeChangeLog extends ChangeLog {
+//        public static final String DARK_THEME_CSS =
+//                "body { color: #ffffff; background-color: #282828; }" + "\n" + DEFAULT_CSS;
+//
+//        public DarkThemeChangeLog(Context context) {
+//            super(new ContextThemeWrapper(context, R.style.DarkTheme), DARK_THEME_CSS);
+//        }
+//    }
 }

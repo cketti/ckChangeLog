@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.2.2'
     }
 }
 
@@ -25,14 +25,14 @@ android {
         versionCode 1
         versionName "1.0"
 
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 21
     }
 }
 
 dependencies {
     compile project(':ckChangeLog')
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-v4:22.1.1'
 }
 
 
