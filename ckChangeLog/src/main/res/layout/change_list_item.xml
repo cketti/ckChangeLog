@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/changeText"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingRight="4dp"
+    android:paddingLeft="32dp"
+    android:textColor="#333333"
+    android:textSize="16sp"
+    tools:background="#FFFFFF"
+    tools:text="Change text"/>
