@@ -1,0 +1,50 @@
+#Android generated
+bin
+gen
+build
+
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+#Eclipse
+.project
+.classpath
+.settings
+
+# Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
+.idea
+*.iml
+
+#Maven
+target
+release.properties
+pom.xml.*
+
+#Command line
+local.properties
+build.xml
+proguard-project.txt
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Crashlytics
+com_crashlytics_export_strings.xml
+crashlytics-build.properties
+crashlytics.properties
+
+# Android Studio
+.gradle
+gradle
+gradlew
+gradlew.bat

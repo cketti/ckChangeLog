@@ -4,8 +4,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.2.2'
     }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'com.android.library'
@@ -15,10 +20,14 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        versionName "1.2.2"
-
-        minSdkVersion 4
+        versionName "2.0.0"
+        minSdkVersion 9
     }
+}
+
+dependencies {
+    compile 'com.afollestad:material-dialogs:0.7.2.8'
+    compile 'se.emilsjolander:stickylistheaders:2.5.2'
 }
 
 project.ext {
@@ -42,5 +51,5 @@ project.ext {
     ]
 }
 
-apply from: '../android-mvn-push.gradle'
+//apply from: '../android-mvn-push.gradle'
 

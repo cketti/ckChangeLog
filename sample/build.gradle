@@ -4,11 +4,18 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.2.2'
     }
 }
 
 apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
 
 android {
     compileSdkVersion 21
@@ -18,14 +25,14 @@ android {
         versionCode 1
         versionName "1.0"
 
-        minSdkVersion 7
+        minSdkVersion 9
         targetSdkVersion 21
     }
 }
 
 dependencies {
     compile project(':ckChangeLog')
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-v4:22.1.1'
 }
 
 
