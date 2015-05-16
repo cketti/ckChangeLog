@@ -1,5 +1,7 @@
 # ckChangeLog - An Android Library to display a Change Log
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog)
+
 ![Screenshot](screenshot_1.png)
 ![Screenshot](screenshot_2.png)
 
