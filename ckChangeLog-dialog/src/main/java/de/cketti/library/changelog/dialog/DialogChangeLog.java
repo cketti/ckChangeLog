@@ -28,12 +28,11 @@ public final class DialogChangeLog {
 
 
     public static DialogChangeLog newInstance(Context context) {
-        ChangeLog changeLog = new ChangeLog(context);
-        return new DialogChangeLog(context, changeLog, DEFAULT_CSS);
+        return DialogChangeLog.newInstance(context, DEFAULT_CSS);
     }
 
     public static DialogChangeLog newInstance(Context context, String css) {
-        ChangeLog changeLog = new ChangeLog(context);
+        ChangeLog changeLog = ChangeLog.newInstance(context);
         return new DialogChangeLog(context, changeLog, css);
     }
 
@@ -63,6 +62,10 @@ public final class DialogChangeLog {
         return getDialog(true);
     }
 
+    public boolean isFirstRun() {
+        return changeLog.isFirstRun();
+    }
+
     private AlertDialog getDialog(boolean full) {
         WebView wv = new WebView(context);
         //wv.setBackgroundColor(0); // transparent
@@ -82,7 +85,7 @@ public final class DialogChangeLog {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The user clicked "OK" so save the current version code as
                                 // "last version code".
-                                changeLog.updateVersionInPreferences();
+                                changeLog.writeCurrentVersion();
                             }
                         });
 
@@ -100,35 +103,7 @@ public final class DialogChangeLog {
         return builder.create();
     }
 
-    /**
-     * Get changes since last version as HTML string.
-     *
-     * @return HTML string containing the changes since the previous installed version of your app
-     *         (What's New).
-     */
-    public String getLog() {
-        return getLog(false);
-    }
-
-    /**
-     * Get full change log as HTML string.
-     *
-     * @return HTML string containing the full change log.
-     */
-    public String getFullLog() {
-        return getLog(true);
-    }
-
-    /**
-     * Get (partial) change log as HTML string.
-     *
-     * @param full
-     *         If this is {@code true} the full change log is returned. Otherwise only changes for
-     *         versions newer than the last version are returned.
-     *
-     * @return The (partial) change log.
-     */
-    protected String getLog(boolean full) {
+    private String getLog(boolean full) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<html><head><style type=\"text/css\">");
@@ -154,9 +129,5 @@ public final class DialogChangeLog {
         sb.append("</body></html>");
 
         return sb.toString();
-    }
-
-    public boolean isFirstRun() {
-        return changeLog.isFirstRun();
     }
 }

@@ -53,104 +53,65 @@ import android.util.SparseArray;
 
 
 /**
- * Display a dialog showing a full or partial (What's New) change log.
+ * Generate a full or partial (What's New) change log.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class ChangeLog {
-    /**
-     * Tag that is used when sending error/debug messages to the log.
-     */
-    protected static final String LOG_TAG = "ckChangeLog";
-
-    /**
-     * This is the key used when storing the version code in SharedPreferences.
-     */
-    protected static final String VERSION_KEY = "ckChangeLog_last_version_code";
-
-    /**
-     * Constant that used when no version code is available.
-     */
-    protected static final int NO_VERSION = -1;
+public final class ChangeLog {
+    private static final String LOG_TAG = "ckChangeLog";
+    private static final String VERSION_KEY = "ckChangeLog_last_version_code";
+    private static final int NO_VERSION = -1;
 
 
-    /**
-     * Context that is used to access the resources and to create the ChangeLog dialogs.
-     */
-    protected final Context mContext;
+    private final Context context;
+    private int lastVersionCode;
+    private int currentVersionCode;
+    private String currentVersionName;
 
-    /**
-     * Last version code read from {@code SharedPreferences} or {@link #NO_VERSION}.
-     */
-    private int mLastVersionCode;
-
-    /**
-     * Version code of the current installation.
-     */
-    private int mCurrentVersionCode;
-
-    /**
-     * Version name of the current installation.
-     */
-    private String mCurrentVersionName;
-
-
-    /**
-     * Contains constants for the root element of {@code changelog.xml}.
-     */
-    protected interface ChangeLogTag {
-        static final String NAME = "changelog";
-    }
-
-    /**
-     * Contains constants for the release element of {@code changelog.xml}.
-     */
-    protected interface ReleaseTag {
-        static final String NAME = "release";
-        static final String ATTRIBUTE_VERSION = "version";
-        static final String ATTRIBUTE_VERSION_CODE = "versioncode";
-    }
-
-    /**
-     * Contains constants for the change element of {@code changelog.xml}.
-     */
-    protected interface ChangeTag {
-        static final String NAME = "change";
-    }
 
     /**
      * Create a {@code ChangeLog} instance using the default {@link SharedPreferences} file.
      *
      * @param context
-     *         Context that is used to access the resources and to create the ChangeLog dialogs.
+     *         Context that is used to access resources.
      */
-    public ChangeLog(Context context) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context));
+    public static ChangeLog newInstance(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        ChangeLog changeLog = new ChangeLog(context);
+        changeLog.init(preferences);
+
+        return changeLog;
     }
 
     /**
      * Create a {@code ChangeLog} instance using the supplied {@code SharedPreferences} instance.
      *
      * @param context
-     *         Context that is used to access the resources and to create the ChangeLog dialogs.
+     *         Context that is used to access resources.
      * @param preferences
      *         {@code SharedPreferences} instance that is used to persist the last version code.
      *
      */
-    public ChangeLog(Context context, SharedPreferences preferences) {
-        mContext = context;
+    public static ChangeLog newInstance(Context context, SharedPreferences preferences) {
+        ChangeLog changeLog = new ChangeLog(context);
+        changeLog.init(preferences);
 
-        // Get last version code
-        mLastVersionCode = preferences.getInt(VERSION_KEY, NO_VERSION);
+        return changeLog;
+    }
 
-        // Get current version code and version name
+    private ChangeLog(Context context) {
+        this.context = context;
+    }
+
+    private void init(SharedPreferences preferences) {
+        lastVersionCode = preferences.getInt(VERSION_KEY, NO_VERSION);
+
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), 0);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 
-            mCurrentVersionCode = packageInfo.versionCode;
-            mCurrentVersionName = packageInfo.versionName;
+            currentVersionCode = packageInfo.versionCode;
+            currentVersionName = packageInfo.versionName;
         } catch (NameNotFoundException e) {
-            mCurrentVersionCode = NO_VERSION;
+            currentVersionCode = NO_VERSION;
             Log.e(LOG_TAG, "Could not get version information from manifest!", e);
         }
     }
@@ -166,7 +127,7 @@ public class ChangeLog {
      * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vcode">android:versionCode</a>
      */
     public int getLastVersionCode() {
-        return mLastVersionCode;
+        return lastVersionCode;
     }
 
     /**
@@ -177,7 +138,7 @@ public class ChangeLog {
      * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vcode">android:versionCode</a>
      */
     public int getCurrentVersionCode() {
-        return mCurrentVersionCode;
+        return currentVersionCode;
     }
 
     /**
@@ -188,7 +149,7 @@ public class ChangeLog {
      * @see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#vname">android:versionName</a>
      */
     public String getCurrentVersionName() {
-        return mCurrentVersionName;
+        return currentVersionName;
     }
 
     /**
@@ -197,7 +158,7 @@ public class ChangeLog {
      * @return {@code true} if this version of your app is started the first time.
      */
     public boolean isFirstRun() {
-        return mLastVersionCode < mCurrentVersionCode;
+        return lastVersionCode < currentVersionCode;
     }
 
     /**
@@ -207,28 +168,21 @@ public class ChangeLog {
      *         Also {@code true} if your app was uninstalled and installed again.
      */
     public boolean isFirstRunEver() {
-        return mLastVersionCode == NO_VERSION;
+        return lastVersionCode == NO_VERSION;
     }
 
     /**
-     * Skip the "What's new" dialog for this app version.
+     * Write current version code to the preferences.
      *
      * <p>
      * Future calls to {@link #isFirstRun()} and {@link #isFirstRunEver()} will return {@code false}
      * for the current app version.
      * </p>
      */
-    public void skipLogDialog() {
-        updateVersionInPreferences();
-    }
-
-    /**
-     * Write current version code to the preferences.
-     */
-    public void updateVersionInPreferences() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+    public void writeCurrentVersion() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(VERSION_KEY, mCurrentVersionCode);
+        editor.putInt(VERSION_KEY, currentVersionCode);
 
         // TODO: Update preferences from a background thread
         editor.commit();
@@ -250,8 +204,7 @@ public class ChangeLog {
         SparseArray<ReleaseItem> masterChangelog = getMasterChangeLog(full);
         SparseArray<ReleaseItem> changelog = getLocalizedChangeLog(full);
 
-        List<ReleaseItem> mergedChangeLog =
-                new ArrayList<ReleaseItem>(masterChangelog.size());
+        List<ReleaseItem> mergedChangeLog = new ArrayList<ReleaseItem>(masterChangelog.size());
 
         for (int i = 0, len = masterChangelog.size(); i < len; i++) {
             int key = masterChangelog.keyAt(i);
@@ -268,38 +221,16 @@ public class ChangeLog {
         return mergedChangeLog;
     }
 
-    /**
-     * Read master change log from {@code xml/changelog_master.xml}
-     *
-     * @see #readChangeLogFromResource(int, boolean)
-     */
-    protected SparseArray<ReleaseItem> getMasterChangeLog(boolean full) {
+    private SparseArray<ReleaseItem> getMasterChangeLog(boolean full) {
         return readChangeLogFromResource(R.xml.changelog_master, full);
     }
 
-    /**
-     * Read localized change log from {@code xml[-lang]/changelog.xml}
-     *
-     * @see #readChangeLogFromResource(int, boolean)
-     */
-    protected SparseArray<ReleaseItem> getLocalizedChangeLog(boolean full) {
+    private SparseArray<ReleaseItem> getLocalizedChangeLog(boolean full) {
         return readChangeLogFromResource(R.xml.changelog, full);
     }
 
-    /**
-     * Read change log from XML resource file.
-     *
-     * @param resId
-     *         Resource ID of the XML file to read the change log from.
-     * @param full
-     *         If this is {@code true} the full change log is returned. Otherwise only changes for
-     *         versions newer than the last version are returned.
-     *
-     * @return A {@code SparseArray} containing {@link ReleaseItem}s representing the (partial)
-     *         change log.
-     */
-    protected final SparseArray<ReleaseItem> readChangeLogFromResource(int resId, boolean full) {
-        XmlResourceParser xml = mContext.getResources().getXml(resId);
+    private SparseArray<ReleaseItem> readChangeLogFromResource(int resId, boolean full) {
+        XmlResourceParser xml = context.getResources().getXml(resId);
         try {
             return readChangeLog(xml, full);
         } finally {
@@ -307,18 +238,7 @@ public class ChangeLog {
         }
     }
 
-    /**
-     * Read the change log from an XML file.
-     *
-     * @param xml
-     *         The {@code XmlPullParser} instance used to read the change log.
-     * @param full
-     *         If {@code true} the full change log is read. Otherwise only the changes since the
-     *         last (saved) version are read.
-     *
-     * @return A {@code SparseArray} mapping the version codes to release information.
-     */
-    protected SparseArray<ReleaseItem> readChangeLog(XmlPullParser xml, boolean full) {
+    private SparseArray<ReleaseItem> readChangeLog(XmlPullParser xml, boolean full) {
         SparseArray<ReleaseItem> result = new SparseArray<ReleaseItem>();
 
         try {
@@ -342,26 +262,6 @@ public class ChangeLog {
         return result;
     }
 
-    /**
-     * Parse the {@code release} tag of a change log XML file.
-     *
-     * @param xml
-     *         The {@code XmlPullParser} instance used to read the change log.
-     * @param full
-     *         If {@code true} the contents of the {@code release} tag are always added to
-     *         {@code changelog}. Otherwise only if the item's {@code versioncode} attribute is
-     *         higher than the last version code.
-     * @param changelog
-     *         The {@code SparseArray} to add a new {@link ReleaseItem} instance to.
-     *
-     * @return {@code true} if the {@code release} element is describing changes of a version older
-     *         or equal to the last version. In that case {@code changelog} won't be modified and
-     *         {@link #readChangeLog(XmlPullParser, boolean)} will stop reading more elements from
-     *         the change log file.
-     *
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
     private boolean parseReleaseTag(XmlPullParser xml, boolean full,
             SparseArray<ReleaseItem> changelog) throws XmlPullParserException, IOException {
 
@@ -375,7 +275,7 @@ public class ChangeLog {
             versionCode = NO_VERSION;
         }
 
-        if (!full && versionCode <= mLastVersionCode) {
+        if (!full && versionCode <= lastVersionCode) {
             return true;
         }
 
@@ -396,14 +296,7 @@ public class ChangeLog {
         return false;
     }
 
-    /**
-     * Returns a {@link Comparator} that specifies the sort order of the {@link ReleaseItem}s.
-     *
-     * <p>
-     * The default implementation returns the items in reverse order (latest version first).
-     * </p>
-     */
-    protected Comparator<ReleaseItem> getChangeLogComparator() {
+    private Comparator<ReleaseItem> getChangeLogComparator() {
         return new Comparator<ReleaseItem>() {
             @Override
             public int compare(ReleaseItem lhs, ReleaseItem rhs) {
@@ -418,4 +311,18 @@ public class ChangeLog {
         };
     }
 
+
+    private interface ChangeLogTag {
+        String NAME = "changelog";
+    }
+
+    private interface ReleaseTag {
+        String NAME = "release";
+        String ATTRIBUTE_VERSION = "version";
+        String ATTRIBUTE_VERSION_CODE = "versioncode";
+    }
+
+    private interface ChangeTag {
+        String NAME = "change";
+    }
 }
