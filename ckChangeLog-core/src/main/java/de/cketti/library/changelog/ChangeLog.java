@@ -42,9 +42,7 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -52,7 +50,6 @@ import android.content.res.XmlResourceParser;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
-import android.webkit.WebView;
 
 
 /**
@@ -75,24 +72,11 @@ public class ChangeLog {
      */
     protected static final int NO_VERSION = -1;
 
-    /**
-     * Default CSS styles used to format the change log.
-     */
-    public static final String DEFAULT_CSS =
-            "h1 { margin-left: 0px; font-size: 1.2em; }" + "\n" +
-            "li { margin-left: 0px; }" + "\n" +
-            "ul { padding-left: 2em; }";
-
 
     /**
      * Context that is used to access the resources and to create the ChangeLog dialogs.
      */
     protected final Context mContext;
-
-    /**
-     * Contains the CSS rules used to format the change log.
-     */
-    protected final String mCss;
 
     /**
      * Last version code read from {@code SharedPreferences} or {@link #NO_VERSION}.
@@ -140,19 +124,7 @@ public class ChangeLog {
      *         Context that is used to access the resources and to create the ChangeLog dialogs.
      */
     public ChangeLog(Context context) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context), DEFAULT_CSS);
-    }
-
-    /**
-     * Create a {@code ChangeLog} instance using the default {@link SharedPreferences} file.
-     *
-     * @param context
-     *         Context that is used to access the resources and to create the ChangeLog dialogs.
-     * @param css
-     *         CSS styles that will be used to format the change log.
-     */
-    public ChangeLog(Context context, String css) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context), css);
+        this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     /**
@@ -162,14 +134,10 @@ public class ChangeLog {
      *         Context that is used to access the resources and to create the ChangeLog dialogs.
      * @param preferences
      *         {@code SharedPreferences} instance that is used to persist the last version code.
-     * @param css
-     *         CSS styles used to format the change log (excluding {@code <style>} and
-     *         {@code </style>}).
      *
      */
-    public ChangeLog(Context context, SharedPreferences preferences, String css) {
+    public ChangeLog(Context context, SharedPreferences preferences) {
         mContext = context;
-        mCss = css;
 
         // Get last version code
         mLastVersionCode = preferences.getInt(VERSION_KEY, NO_VERSION);
@@ -255,137 +223,15 @@ public class ChangeLog {
     }
 
     /**
-     * Get the "What's New" dialog.
-     *
-     * @return An AlertDialog displaying the changes since the previous installed version of your
-     *         app (What's New). But when this is the first run of your app including
-     *         {@code ChangeLog} then the full log dialog is show.
-     */
-    public AlertDialog getLogDialog() {
-        return getDialog(isFirstRunEver());
-    }
-
-    /**
-     * Get a dialog with the full change log.
-     *
-     * @return An AlertDialog with a full change log displayed.
-     */
-    public AlertDialog getFullLogDialog() {
-        return getDialog(true);
-    }
-
-    /**
-     * Create a dialog containing (parts of the) change log.
-     *
-     * @param full
-     *         If this is {@code true} the full change log is displayed. Otherwise only changes for
-     *         versions newer than the last version are displayed.
-     *
-     * @return A dialog containing the (partial) change log.
-     */
-    protected AlertDialog getDialog(boolean full) {
-        WebView wv = new WebView(mContext);
-        //wv.setBackgroundColor(0); // transparent
-        wv.loadDataWithBaseURL(null, getLog(full), "text/html", "UTF-8", null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(
-                mContext.getResources().getString(
-                        full ? R.string.changelog_full_title : R.string.changelog_title))
-                .setView(wv)
-                .setCancelable(false)
-                // OK button
-                .setPositiveButton(
-                        mContext.getResources().getString(R.string.changelog_ok_button),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The user clicked "OK" so save the current version code as
-                                // "last version code".
-                                updateVersionInPreferences();
-                            }
-                        });
-
-        if (!full) {
-            // Show "More…" button if we're only displaying a partial change log.
-            builder.setNegativeButton(R.string.changelog_show_full,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            getFullLogDialog().show();
-                        }
-                    });
-        }
-
-        return builder.create();
-    }
-
-    /**
      * Write current version code to the preferences.
      */
-    protected void updateVersionInPreferences() {
+    public void updateVersionInPreferences() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt(VERSION_KEY, mCurrentVersionCode);
 
         // TODO: Update preferences from a background thread
         editor.commit();
-    }
-
-    /**
-     * Get changes since last version as HTML string.
-     *
-     * @return HTML string containing the changes since the previous installed version of your app
-     *         (What's New).
-     */
-    public String getLog() {
-        return getLog(false);
-    }
-
-    /**
-     * Get full change log as HTML string.
-     *
-     * @return HTML string containing the full change log.
-     */
-    public String getFullLog() {
-        return getLog(true);
-    }
-
-    /**
-     * Get (partial) change log as HTML string.
-     *
-     * @param full
-     *         If this is {@code true} the full change log is returned. Otherwise only changes for
-     *         versions newer than the last version are returned.
-     *
-     * @return The (partial) change log.
-     */
-    protected String getLog(boolean full) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<html><head><style type=\"text/css\">");
-        sb.append(mCss);
-        sb.append("</style></head><body>");
-
-        String versionFormat = mContext.getResources().getString(R.string.changelog_version_format);
-
-        List<ReleaseItem> changelog = getChangeLog(full);
-
-        for (ReleaseItem release : changelog) {
-            sb.append("<h1>");
-            sb.append(String.format(versionFormat, release.versionName));
-            sb.append("</h1><ul>");
-            for (String change : release.changes) {
-                sb.append("<li>");
-                sb.append(change);
-                sb.append("</li>");
-            }
-            sb.append("</ul>");
-        }
-
-        sb.append("</body></html>");
-
-        return sb.toString();
     }
 
     /**

@@ -1,2 +1,3 @@
 include ':ckChangeLog-core'
+include ':ckChangeLog-dialog'
 include ':sample'

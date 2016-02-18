@@ -1,21 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion propCompileSdkVersion
     buildToolsVersion propBuildToolsVersion
 
     defaultConfig {
+        minSdkVersion 4
+
         versionCode 1
         versionName "1.0"
-
-        minSdkVersion 7
-        targetSdkVersion 21
     }
 }
 
 dependencies {
-    compile project(':ckChangeLog-dialog')
-    compile 'com.android.support:support-v4:21.0.3'
+    compile project(':ckChangeLog-core')
 }
-
-
