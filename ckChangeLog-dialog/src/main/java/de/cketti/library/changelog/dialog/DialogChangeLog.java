@@ -9,7 +9,7 @@ import android.content.DialogInterface;
 import android.webkit.WebView;
 
 import de.cketti.library.changelog.ChangeLog;
-import de.cketti.library.changelog.ChangeLog.ReleaseItem;
+import de.cketti.library.changelog.ReleaseItem;
 
 
 public final class DialogChangeLog {
