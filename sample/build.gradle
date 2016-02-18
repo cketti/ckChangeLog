@@ -14,7 +14,7 @@ android {
 }
 
 dependencies {
-    compile project(':ckChangeLog')
+    compile project(':ckChangeLog-core')
     compile 'com.android.support:support-v4:21.0.3'
 }
 

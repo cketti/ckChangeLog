@@ -1,2 +1,2 @@
-include ':ckChangeLog'
+include ':ckChangeLog-core'
 include ':sample'
