@@ -76,10 +76,7 @@ public final class ChangeLog {
      */
     public static ChangeLog newInstance(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        ChangeLog changeLog = new ChangeLog(context);
-        changeLog.init(preferences);
-
-        return changeLog;
+        return newInstance(context, preferences);
     }
 
     /**
