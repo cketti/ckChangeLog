@@ -284,8 +284,8 @@ public final class ChangeLog {
         while (eventType != XmlPullParser.END_TAG || xml.getName().equals(ChangeTag.NAME)) {
             if (eventType == XmlPullParser.START_TAG && xml.getName().equals(ChangeTag.NAME)) {
                 eventType = xml.next();
-
-                changes.add(xml.getText());
+                String text = cleanText(xml.getText());
+                changes.add(text);
             }
             eventType = xml.next();
         }
@@ -294,6 +294,10 @@ public final class ChangeLog {
         changelog.put(versionCode, release);
 
         return false;
+    }
+
+    private String cleanText(String text) {
+        return text.trim().replaceAll("\\s+", " ");
     }
 
     private Comparator<ReleaseItem> getChangeLogComparator() {
