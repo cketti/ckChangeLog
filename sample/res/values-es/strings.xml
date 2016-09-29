@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">ckChangeLog Muestra</string>
+    <string name="hello_world">Esta es la app de muestra para la librería ckChangeLog. Busca en el menú los diferentes tipos de diálogos.</string>
+
+    <string name="menu_whats_new">Qué hay de nuevo</string>
+    <string name="menu_full_changelog">Registro completo de cambios</string>
+
+</resources>
