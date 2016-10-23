@@ -7,8 +7,12 @@ android {
     defaultConfig {
         versionName "1.2.2"
 
-        minSdkVersion 4
+        minSdkVersion 14
     }
+}
+
+dependencies {
+    compile 'com.android.support:support-annotations:25.0.0'
 }
 
 project.ext {
