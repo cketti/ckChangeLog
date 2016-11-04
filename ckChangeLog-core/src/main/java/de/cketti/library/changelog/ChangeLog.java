@@ -189,18 +189,20 @@ public final class ChangeLog {
     }
 
     /**
-     * Returns the change log.
+     * Returns the full change log.
      *
-     * @param full
-     *         If this is {@code true} the full change log is returned. Otherwise only changes for
-     *         versions newer than the last version are returned.
-     *
-     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the (partial)
-     *         change log.
+     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the full change log.
      */
-    public List<ReleaseItem> getChangeLog(boolean full) {
-        return full ?
-                changeLogProvider.getChangeLog() :
-                changeLogProvider.getChangeLogSince(lastVersionCode);
+    public List<ReleaseItem> getChangeLog() {
+        return changeLogProvider.getChangeLog();
+    }
+
+    /**
+     * Returns the list of changes for versions newer than the last version ("What's New").
+     *
+     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the recent changes.
+     */
+    public List<ReleaseItem> getRecentChanges() {
+        return changeLogProvider.getChangeLogSince(lastVersionCode);
     }
 }

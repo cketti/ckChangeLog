@@ -125,24 +125,24 @@ public class ChangeLogTest {
     }
 
     @Test
-    public void getChangeLog_withTrueArgument_shouldReturnDataFromChangeLogProvider() throws Exception {
+    public void getChangeLog_shouldReturnDataFromChangeLogProvider() throws Exception {
         ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
         List<ReleaseItem> releaseItemsToReturn = new ArrayList<>();
         when(changeLogProvider.getChangeLog()).thenReturn(releaseItemsToReturn);
 
-        List<ReleaseItem> releaseItems = changeLog.getChangeLog(true);
+        List<ReleaseItem> releaseItems = changeLog.getChangeLog();
 
         assertSame(releaseItemsToReturn, releaseItems);
     }
 
     @Test
-    public void getChangeLog_withFalseArgument_shouldReturnDataFromChangeLogProvider() throws Exception {
+    public void getRecentChanges_shouldReturnDataFromChangeLogProvider() throws Exception {
         setLastVersionCode(2);
         ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
         List<ReleaseItem> releaseItemsToReturn = new ArrayList<>();
         when(changeLogProvider.getChangeLogSince(2)).thenReturn(releaseItemsToReturn);
 
-        List<ReleaseItem> releaseItems = changeLog.getChangeLog(false);
+        List<ReleaseItem> releaseItems = changeLog.getRecentChanges();
 
         assertSame(releaseItemsToReturn, releaseItems);
     }

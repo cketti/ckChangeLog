@@ -112,7 +112,9 @@ public final class DialogChangeLog {
 
         String versionFormat = context.getResources().getString(R.string.changelog_version_format);
 
-        List<ReleaseItem> changelog = changeLog.getChangeLog(full);
+        List<ReleaseItem> changelog = full ?
+                changeLog.getChangeLog() :
+                changeLog.getRecentChanges();
 
         for (ReleaseItem release : changelog) {
             sb.append("<h1>");
