@@ -52,4 +52,42 @@ public final class ReleaseItem {
         this.versionName = checkNotNull(versionName, "versionName == null");
         this.changes = checkNotNull(changes, "changes == null");
     }
+
+    @Override
+    public String toString() {
+        return "ReleaseItem{" +
+                "versionCode=" + versionCode +
+                ", versionName='" + versionName + '\'' +
+                ", changes=" + changes +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ReleaseItem that = (ReleaseItem) o;
+
+        if (versionCode != that.versionCode) {
+            return false;
+        }
+        if (!versionName.equals(that.versionName)) {
+            return false;
+        }
+        return changes.equals(that.changes);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = versionCode;
+        result = 31 * result + versionName.hashCode();
+        result = 31 * result + changes.hashCode();
+        return result;
+    }
 }
