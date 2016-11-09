@@ -56,16 +56,22 @@ public final class XmlParser {
 
     public List<ReleaseItem> readChangeLog() {
         try {
-            int eventType = xmlPullParser.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals(TAG_RELEASE)) {
-                    if (parseReleaseTag()) {
+            while (xmlPullParser.getEventType() != XmlPullParser.START_TAG) {
+                xmlPullParser.next();
+            }
+
+            assertElementStart(TAG_CHANGELOG);
+
+            int eventType;
+            do {
+                eventType = xmlPullParser.next(); 
+                if (eventType == XmlPullParser.START_TAG) {
+                    if (parseReleaseElement()) {
                         // Stop reading more elements if this entry is not newer than the last version.
                         break;
                     }
-                }
-                eventType = xmlPullParser.next();
-            }
+                }                
+            } while (eventType != XmlPullParser.END_DOCUMENT);
         } catch (XmlPullParserException | IOException e) {
             throw new IllegalStateException(e);
         }
@@ -73,39 +79,88 @@ public final class XmlParser {
         return result;
     }
 
-    private boolean parseReleaseTag() throws XmlPullParserException, IOException {
-        String version = xmlPullParser.getAttributeValue(null, ATTRIBUTE_VERSION);
+    private boolean parseReleaseElement() throws XmlPullParserException, IOException {
+        assertElementStart(TAG_RELEASE);
 
-        int versionCode;
-        try {
-            String versionCodeStr = xmlPullParser.getAttributeValue(null, ATTRIBUTE_VERSION_CODE);
-            versionCode = Integer.parseInt(versionCodeStr);
-        } catch (NumberFormatException e) {
-            versionCode = NO_VERSION;
-        }
-
+        String version = parseVersionAttribute();
+        int versionCode = parseVersionCodeAttribute();
+        
         if (lastVersionCode != NO_VERSION && versionCode <= lastVersionCode) {
             return true;
         }
 
-        int eventType = xmlPullParser.getEventType();
         List<String> changes = new ArrayList<>();
-        while (eventType != XmlPullParser.END_TAG || xmlPullParser.getName().equals(TAG_CHANGE)) {
-            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals(TAG_CHANGE)) {
-                eventType = xmlPullParser.next();
-                String text = cleanText(xmlPullParser.getText());
+        int eventType;
+        do {
+            eventType = xmlPullParser.next();
+            if (eventType == XmlPullParser.START_TAG) {
+                String text = parseChangeElement();
                 changes.add(text);
             }
-            eventType = xmlPullParser.next();
-        }
+        } while (eventType != XmlPullParser.END_TAG);
 
+        if (changes.isEmpty()) {
+            throw new InvalidChangeLogException("<release> tag must contain at least one <change> element");
+        }
+        
         ReleaseItem release = new ReleaseItem(versionCode, version, changes);
         result.add(release);
 
         return false;
     }
 
+    private String parseVersionAttribute() {
+        assertAttributePresent(ATTRIBUTE_VERSION);
+        return xmlPullParser.getAttributeValue(null, ATTRIBUTE_VERSION);
+    }
+
+    private int parseVersionCodeAttribute() {
+        assertAttributePresent(ATTRIBUTE_VERSION_CODE);
+
+        String versionCodeStr = xmlPullParser.getAttributeValue(null, ATTRIBUTE_VERSION_CODE);
+        try {
+            return Integer.parseInt(versionCodeStr);
+        } catch (NumberFormatException e) {
+            throw new InvalidChangeLogException("Invalid version code value: " + versionCodeStr);
+        }
+    }
+
+    private String parseChangeElement() throws XmlPullParserException, IOException {
+        assertElementStart(TAG_CHANGE);
+        
+        assertNextEventType(XmlPullParser.TEXT, "Expected text");
+        String text = cleanText(xmlPullParser.getText());
+        
+        assertNextEventType(XmlPullParser.END_TAG, "Expected </change>");
+        
+        return text;
+    }
+
     private String cleanText(String text) {
         return text.trim().replaceAll("\\s+", " ");
+    }
+
+    private void assertNextEventType(int expectedEventType, String message) throws XmlPullParserException, IOException {
+        xmlPullParser.next();
+
+        int eventType = xmlPullParser.getEventType();
+        if (eventType != expectedEventType) {
+            throw new InvalidChangeLogException(message);
+        }
+    }
+
+    private void assertElementStart(String expectedElementName) throws XmlPullParserException, IOException {
+        String tagName = xmlPullParser.getName();
+        if (!expectedElementName.equals(tagName)) {
+            throw new InvalidChangeLogException("Unexpected tag: " + tagName + 
+                    " (wanted: " + expectedElementName + ")");
+        }
+    }
+
+    private void assertAttributePresent(String attributeName) {
+        String attributeValue = xmlPullParser.getAttributeValue(null, attributeName);
+        if (attributeValue == null) {
+            throw new InvalidChangeLogException("Missing attribute: " + attributeName);
+        }
     }
 }
