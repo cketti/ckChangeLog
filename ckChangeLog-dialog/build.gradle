@@ -5,10 +5,8 @@ android {
     buildToolsVersion propBuildToolsVersion
 
     defaultConfig {
+        versionName libraryVersion
         minSdkVersion 14
-
-        versionCode 1
-        versionName "1.0"
     }
 }
 
