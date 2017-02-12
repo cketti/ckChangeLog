@@ -13,3 +13,8 @@ android {
 dependencies {
     compile project(':ckChangeLog-core')
 }
+
+project.ext.pom = rootProject.pom
+project.ext.pom['artifactId'] = "ckchangelog-dialog"
+
+apply from: '../android-mvn-push.gradle'

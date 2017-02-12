@@ -18,26 +18,8 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
-project.ext {
-    pom = [
-        group: "de.cketti.library.changelog",
-        artifactId: "ckchangelog",
-        name: "ckChangeLog Library",
-        description: "An Android Library to display a Change Log",
-        url: "https://github.com/cketti/ckChangeLog",
-
-        scmUrl: "https://github.com/cketti/ckChangeLog",
-        scmConnection: "scm:git@github.com:cketti/ckChangeLog.git",
-        scmDevConnection: "scm:git@github.com:cketti/ckChangeLog.git",
-
-        licenseName: "The Apache Software License, Version 2.0",
-        licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
-        licenseDist: "repo",
-
-        developerId: "cketti",
-        developerName: "cketti"
-    ]
-}
+project.ext.pom = rootProject.pom
+project.ext.pom['artifactId'] = "ckchangelog-core"
 
 apply from: '../android-mvn-push.gradle'
 

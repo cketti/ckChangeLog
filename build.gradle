@@ -18,4 +18,22 @@ ext {
     propBuildToolsVersion = "23.0.3"
     propCompileSdkVersion = 23
     libraryVersion = "2.0.0-SNAPSHOT"
+
+    pom = [
+            group: "de.cketti.library.changelog",
+            name: "ckChangeLog Library",
+            description: "An Android Library to display a Change Log",
+            url: "https://github.com/cketti/ckChangeLog",
+
+            scmUrl: "https://github.com/cketti/ckChangeLog",
+            scmConnection: "scm:git@github.com:cketti/ckChangeLog.git",
+            scmDevConnection: "scm:git@github.com:cketti/ckChangeLog.git",
+
+            licenseName: "The Apache Software License, Version 2.0",
+            licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
+            licenseDist: "repo",
+
+            developerId: "cketti",
+            developerName: "cketti"
+    ]
 }
