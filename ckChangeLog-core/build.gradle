@@ -7,6 +7,8 @@ android {
     defaultConfig {
         versionName libraryVersion
         minSdkVersion 14
+
+        resValue "string", "library_ckChangeLog_libraryVersion", libraryVersion
     }
 }
 

@@ -7,7 +7,6 @@
     <string name="library_ckChangeLog_authorWebsite">http://cketti.de/</string>
     <string name="library_ckChangeLog_libraryName">ckChangeLog</string>
     <string name="library_ckChangeLog_libraryDescription">An Android Library to display a Change Log</string>
-    <string name="library_ckChangeLog_libraryVersion">1.2.2</string>
     <string name="library_ckChangeLog_libraryWebsite">https://github.com/cketti/ckChangeLog</string>
     <string name="library_ckChangeLog_licenseVersion">Apache Version 2.0</string>
     <string name="library_ckChangeLog_licenseId">apache_2_0</string>
