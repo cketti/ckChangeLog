@@ -26,6 +26,14 @@ import android.util.SparseArray;
 import static de.cketti.library.changelog.Preconditions.checkNotNull;
 
 
+/**
+ * {@link ChangeLogProvider} that merges the data from two {@code ChangeLogProvider}s.
+ *
+ * <p>
+ * Change Log entries from the provider with localized data are favored over the entries from the master provider.
+ * However, when a specific entry is missing in the localized provider the entry from the master provider will be used.
+ * </p>
+ */
 public final class MergedChangeLogProvider implements ChangeLogProvider {
     private final ChangeLogProvider masterChangeLogProvider;
     private final ChangeLogProvider localizedChangeLogProvider;

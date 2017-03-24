@@ -24,6 +24,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 
+/**
+ * The parser for ckChangeLog's XML file format.
+ */
 public final class XmlParser {
     private static final int NO_VERSION = -1;
     private static final String TAG_CHANGELOG = "changelog";
@@ -54,7 +57,7 @@ public final class XmlParser {
         result = new ArrayList<>();
     }
 
-    public List<ReleaseItem> readChangeLog() {
+    private List<ReleaseItem> readChangeLog() {
         try {
             while (xmlPullParser.getEventType() != XmlPullParser.START_TAG) {
                 xmlPullParser.next();
@@ -152,8 +155,8 @@ public final class XmlParser {
     private void assertElementStart(String expectedElementName) throws XmlPullParserException, IOException {
         String tagName = xmlPullParser.getName();
         if (!expectedElementName.equals(tagName)) {
-            throw new InvalidChangeLogException("Unexpected tag: " + tagName + 
-                    " (wanted: " + expectedElementName + ")");
+            throw new InvalidChangeLogException(
+                    "Unexpected tag: " + tagName + " (wanted: " + expectedElementName + ")");
         }
     }
 

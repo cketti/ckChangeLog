@@ -45,9 +45,8 @@ import android.util.Log;
 
 
 /**
- * Generate a full or partial (What's New) change log.
+ * Generate a full or partial (What's New) Change Log.
  */
-@SuppressWarnings("UnusedDeclaration")
 public final class ChangeLog {
     private static final String LOG_TAG = "ckChangeLog";
     private static final String VERSION_KEY = "ckChangeLog_last_version_code";
@@ -91,7 +90,18 @@ public final class ChangeLog {
         return newInstance(context, preferences, changeLogProvider);
     }
 
-    public static ChangeLog newInstance(Context context, SharedPreferences preferences, 
+    /**
+     * Create a {@code ChangeLog} instance using the supplied {@code SharedPreferences} and {@code ChangeLogProvider}
+     * instances.
+     *
+     * @param context
+     *         Context that is used to access resources.
+     * @param preferences
+     *         {@code SharedPreferences} instance that is used to persist the last version code.
+     * @param changeLogProvider
+     *         {@code ChangeLogProvider} instance that is used to retrieve the Change Log.
+     */
+    public static ChangeLog newInstance(Context context, SharedPreferences preferences,
             ChangeLogProvider changeLogProvider) {
         ChangeLog changeLog = new ChangeLog(context, preferences, changeLogProvider);
         changeLog.init();
@@ -189,9 +199,9 @@ public final class ChangeLog {
     }
 
     /**
-     * Returns the full change log.
+     * Returns the full Change Log.
      *
-     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the full change log.
+     * @return A sorted {@code List} containing {@link ReleaseItem}s representing the full Change Log.
      */
     public List<ReleaseItem> getChangeLog() {
         return changeLogProvider.getChangeLog();

@@ -16,6 +16,9 @@
 package de.cketti.library.changelog;
 
 
+/**
+ * Thrown by {@link XmlParser} when reading the Change Log XML fails.
+ */
 public class InvalidChangeLogException extends RuntimeException {
     public InvalidChangeLogException(String detailMessage) {
         super(detailMessage);

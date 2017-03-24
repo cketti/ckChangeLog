@@ -17,6 +17,7 @@ package de.cketti.library.changelog;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static de.cketti.library.changelog.Preconditions.checkNotNull;
@@ -50,7 +51,7 @@ public final class ReleaseItem {
     ReleaseItem(int versionCode, String versionName, List<String> changes) {
         this.versionCode = versionCode;
         this.versionName = checkNotNull(versionName, "versionName == null");
-        this.changes = checkNotNull(changes, "changes == null");
+        this.changes = Collections.unmodifiableList(checkNotNull(changes, "changes == null"));
     }
 
     @Override

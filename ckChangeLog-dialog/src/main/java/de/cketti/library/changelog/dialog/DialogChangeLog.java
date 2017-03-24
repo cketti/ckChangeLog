@@ -27,9 +27,23 @@ import de.cketti.library.changelog.ChangeLog;
 import de.cketti.library.changelog.ReleaseItem;
 
 
+/**
+ * Display a dialog showing a full or partial (What's New) Change Log.
+ *
+ * <p>
+ * You can display a Change Log after app updates by putting the following code in your Activity's {@code onCreate()}
+ * method:
+ * </p>
+ * <pre>{@code
+ * DialogChangeLog changeLog = DialogChangeLog.newInstance(this);
+ * if (changeLog.isFirstRun()) {
+ *     changeLog.getLogDialog().show();
+ * }
+ * }</pre>
+ */
 public final class DialogChangeLog {
     /**
-     * Default CSS styles used to format the change log.
+     * Default CSS styles used to format the Change Log.
      */
     public static final String DEFAULT_CSS = "" +
             "h1 { margin-left: 0px; font-size: 1.2em; }" + "\n" +
@@ -42,10 +56,16 @@ public final class DialogChangeLog {
     private final HtmlFormatter formatter;
 
 
+    /**
+     * Create an instance using the default CSS to format the Change Log.
+     */
     public static DialogChangeLog newInstance(Context context) {
         return DialogChangeLog.newInstance(context, DEFAULT_CSS);
     }
 
+    /**
+     * Create an instance using the supplied CSS to format the Change Log.
+     */
     public static DialogChangeLog newInstance(Context context, String css) {
         ChangeLog changeLog = ChangeLog.newInstance(context);
         String versionFormat = context.getResources().getString(R.string.changelog_version_format);
@@ -60,7 +80,7 @@ public final class DialogChangeLog {
     }
 
     /**
-     * Get the {@link ChangeLog} instance backing this {@code DialogChangeLog}.
+     * Get the {@code ChangeLog} instance backing this {@code DialogChangeLog}.
      */
     public ChangeLog getChangeLog() {
         return changeLog;
@@ -78,43 +98,40 @@ public final class DialogChangeLog {
     }
 
     /**
-     * Get a dialog with the full change log.
+     * Get a dialog with the full Change Log.
      *
-     * @return An AlertDialog with a full change log displayed.
+     * @return An AlertDialog with a full Change Log displayed.
      */
     public AlertDialog getFullLogDialog() {
         return getDialog(true);
     }
 
+    /**
+     * Check if this is the first execution of this app version.
+     *
+     * @return {@code true} if this version of your app is started the first time.
+     */
     public boolean isFirstRun() {
         return changeLog.isFirstRun();
     }
 
     private AlertDialog getDialog(boolean full) {
-        WebView wv = new WebView(context);
-        //wv.setBackgroundColor(0); // transparent
-        wv.loadDataWithBaseURL(null, getChangeLogHtml(full), "text/html", "UTF-8", null);
+        WebView webView = new WebView(context);
+        webView.loadDataWithBaseURL(null, getChangeLogHtml(full), "text/html", "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(
-                context.getResources().getString(
-                        full ? R.string.changelog_full_title : R.string.changelog_title))
-                .setView(wv)
+        builder.setTitle(full ? R.string.changelog_full_title : R.string.changelog_title)
+                .setView(webView)
                 .setCancelable(false)
-                // OK button
-                .setPositiveButton(
-                        context.getResources().getString(R.string.changelog_ok_button),
+                .setPositiveButton(R.string.changelog_ok_button,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // The user clicked "OK" so save the current version code as
-                                // "last version code".
                                 changeLog.writeCurrentVersion();
                             }
                         });
 
         if (!full) {
-            // Show "More…" button if we're only displaying a partial change log.
             builder.setNegativeButton(R.string.changelog_show_full,
                     new DialogInterface.OnClickListener() {
                         @Override

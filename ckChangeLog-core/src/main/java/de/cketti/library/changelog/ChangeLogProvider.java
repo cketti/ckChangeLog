@@ -19,7 +19,20 @@ package de.cketti.library.changelog;
 import java.util.List;
 
 
+/**
+ * A Change Log provider that can return information about all versions or only ones newer than a given version code.
+ */
 public interface ChangeLogProvider {
+    /**
+     * Get all {@code ReleaseItem} entries of this Change Log.
+     */
     List<ReleaseItem> getChangeLog();
+
+    /**
+     * Get only {@code ReleaseItem} entries newer than the given version code.
+     *
+     * @param lastVersionCode
+     *         {@code ReleaseItem} entries with a version code lower than or equal to this value won't be returned.
+     */
     List<ReleaseItem> getChangeLogSince(int lastVersionCode);
 }

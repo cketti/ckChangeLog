@@ -23,7 +23,10 @@ import android.content.res.XmlResourceParser;
 import android.support.annotation.XmlRes;
 
 
-public class ResourceChangeLogProvider implements ChangeLogProvider {
+/**
+ * A {@link ChangeLogProvider} that reads data from an Android XML resource.
+ */
+class ResourceChangeLogProvider implements ChangeLogProvider {
     private final Context context;
     private final int resourceId;
 
