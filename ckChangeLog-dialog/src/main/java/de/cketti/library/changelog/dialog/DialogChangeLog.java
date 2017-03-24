@@ -39,7 +39,7 @@ public final class DialogChangeLog {
 
     private final Context context;
     private final ChangeLog changeLog;
-    private final String css;
+    private final HtmlFormatter formatter;
 
 
     public static DialogChangeLog newInstance(Context context) {
@@ -48,13 +48,15 @@ public final class DialogChangeLog {
 
     public static DialogChangeLog newInstance(Context context, String css) {
         ChangeLog changeLog = ChangeLog.newInstance(context);
-        return new DialogChangeLog(context, changeLog, css);
+        String versionFormat = context.getResources().getString(R.string.changelog_version_format);
+        HtmlFormatter formatter = new HtmlFormatter(versionFormat, css);
+        return new DialogChangeLog(context, changeLog, formatter);
     }
 
-    private DialogChangeLog(Context context, ChangeLog changeLog, String css) {
+    private DialogChangeLog(Context context, ChangeLog changeLog, HtmlFormatter formatter) {
         this.context = context;
         this.changeLog = changeLog;
-        this.css = css;
+        this.formatter = formatter;
     }
 
     /**
@@ -84,7 +86,7 @@ public final class DialogChangeLog {
     private AlertDialog getDialog(boolean full) {
         WebView wv = new WebView(context);
         //wv.setBackgroundColor(0); // transparent
-        wv.loadDataWithBaseURL(null, getLog(full), "text/html", "UTF-8", null);
+        wv.loadDataWithBaseURL(null, getChangeLogHtml(full), "text/html", "UTF-8", null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(
@@ -118,33 +120,11 @@ public final class DialogChangeLog {
         return builder.create();
     }
 
-    private String getLog(boolean full) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<html><head><style type=\"text/css\">");
-        sb.append(css);
-        sb.append("</style></head><body>");
-
-        String versionFormat = context.getResources().getString(R.string.changelog_version_format);
-
+    private String getChangeLogHtml(boolean full) {
         List<ReleaseItem> changelog = full ?
                 changeLog.getChangeLog() :
                 changeLog.getRecentChanges();
 
-        for (ReleaseItem release : changelog) {
-            sb.append("<h1>");
-            sb.append(String.format(versionFormat, release.versionName));
-            sb.append("</h1><ul>");
-            for (String change : release.changes) {
-                sb.append("<li>");
-                sb.append(change);
-                sb.append("</li>");
-            }
-            sb.append("</ul>");
-        }
-
-        sb.append("</body></html>");
-
-        return sb.toString();
+        return formatter.createHtmlChangeLog(changelog);
     }
 }
