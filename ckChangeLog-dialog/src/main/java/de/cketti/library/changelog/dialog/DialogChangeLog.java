@@ -60,6 +60,13 @@ public final class DialogChangeLog {
     }
 
     /**
+     * Get the {@link ChangeLog} instance backing this {@code DialogChangeLog}.
+     */
+    public ChangeLog getChangeLog() {
+        return changeLog;
+    }
+
+    /**
      * Get the "What's New" dialog.
      *
      * @return An AlertDialog displaying the changes since the previous installed version of your
