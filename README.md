@@ -1,7 +1,7 @@
 # ckChangeLog - An Android Library to display a Change Log
 
 [![Build status](https://api.travis-ci.org/cketti/ckChangeLog.svg)](https://travis-ci.org/cketti/ckChangeLog)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog-dialog/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog-dialog)
 
 ![Screenshot](screenshot_1.png)
 ![Screenshot](screenshot_2.png)
@@ -14,7 +14,7 @@ This library provides an easy way to display a change log in your app.
  * Can display the complete change log history
  * Uses a simple XML file as source
  * Supports partial translations
- * Easily extendable to use something other than a dialog
+ * Easily extensible to use something other than a dialog
 
 Repository at <https://github.com/cketti/ckChangeLog>.
 
@@ -42,12 +42,12 @@ Repository at <https://github.com/cketti/ckChangeLog>.
 2. Create translations of this `changelog_master.xml` file in files named `changelog.xml` under
 language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
-3. Display the change log dialog by putting the following code in your activity's `onCreate()` method:
+3. Display the change log dialog by putting the following code in your Activity's `onCreate()` method:
 
   ```java
-  ChangeLog cl = new ChangeLog(this);
-  if (cl.isFirstRun()) {
-      cl.getLogDialog().show();
+  DialogChangeLog changeLog = DialogChangeLog.newInstance(this);
+  if (changeLog.isFirstRun()) {
+      changeLog.getLogDialog().show();
   }
   ```
 
@@ -57,7 +57,7 @@ The easiest way to add ckChangeLog to your project is via Gradle. Just add the f
 
 ```groovy
 dependencies {
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile 'de.cketti.library.changelog:ckchangelog-dialog:2.0.0'
 }
 ```
 
@@ -78,6 +78,7 @@ In order to change the labels of the dialog add the following items to your `str
 <string name="changelog_title">What\'s New</string>
 <string name="changelog_ok_button">OK</string>
 <string name="changelog_show_full">More…</string>
+<string name="changelog_version_format">Version <xliff:g id="version_name">%s</xliff:g></string>
 ```
 
 ## Acknowledgments
@@ -88,7 +89,7 @@ This library is based on:
 
 Other contributors:
 * [See here](https://github.com/cketti/ckChangeLog/graphs/contributors)
-* You? Please create pull requests against the [dev](https://github.com/cketti/ckChangeLog/tree/dev) branch
+* You? Create a [pull request](https://github.com/cketti/ckChangeLog/pulls).
 
 
 ## License
