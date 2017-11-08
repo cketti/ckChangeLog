@@ -1,3 +1,7 @@
+if (!(hasProperty("nexusUsername") && hasProperty("nexusPassword"))) {
+    return
+}
+
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -13,6 +17,9 @@ afterEvaluate { project ->
                 pom.artifactId = project.pom.artifactId
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: nexusUsername, password: nexusPassword)
+                }
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
                     authentication(userName: nexusUsername, password: nexusPassword)
                 }
 

@@ -1,5 +1,8 @@
 # ckChangeLog - An Android Library to display a Change Log
 
+[![Build status](https://api.travis-ci.org/cketti/ckChangeLog.svg)](https://travis-ci.org/cketti/ckChangeLog)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog-dialog/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.cketti.library.changelog/ckchangelog-dialog)
+
 ![Screenshot](screenshot_1.png)
 ![Screenshot](screenshot_2.png)
 
@@ -11,7 +14,7 @@ This library provides an easy way to display a change log in your app.
  * Can display the complete change log history
  * Uses a simple XML file as source
  * Supports partial translations
- * Easily extendable to use something other than a dialog
+ * Easily extensible to use something other than a dialog
 
 Repository at <https://github.com/cketti/ckChangeLog>.
 
@@ -39,12 +42,12 @@ Repository at <https://github.com/cketti/ckChangeLog>.
 2. Create translations of this `changelog_master.xml` file in files named `changelog.xml` under
 language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
-3. Display the change log dialog by putting the following code in your activity's `onCreate()` method:
+3. Display the change log dialog by putting the following code in your Activity's `onCreate()` method:
 
   ```java
-  ChangeLog cl = new ChangeLog(this);
-  if (cl.isFirstRun()) {
-      cl.getLogDialog().show();
+  DialogChangeLog changeLog = DialogChangeLog.newInstance(this);
+  if (changeLog.isFirstRun()) {
+      changeLog.getLogDialog().show();
   }
   ```
 
@@ -54,7 +57,7 @@ The easiest way to add ckChangeLog to your project is via Gradle. Just add the f
 
 ```groovy
 dependencies {
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile 'de.cketti.library.changelog:ckchangelog-dialog:2.0.0'
 }
 ```
 
@@ -70,41 +73,13 @@ repositories {
 
 In order to change the labels of the dialog add the following items to your `strings.xml`:
 
+```xml
+<string name="changelog_full_title">Change Log</string>
+<string name="changelog_title">What\'s New</string>
+<string name="changelog_ok_button">OK</string>
+<string name="changelog_show_full">More…</string>
+<string name="changelog_version_format">Version <xliff:g id="version_name">%s</xliff:g></string>
 ```
-  <string name="changelog_full_title">Change Log</string>
-  <string name="changelog_title">What\'s New</string>
-  <string name="changelog_ok_button">OK</string>
-  <string name="changelog_show_full">More…</string>
-```
-
-## Changelog
-
-### Version 1.2.2 (2015-01-09)
-* Added Ukrainian translation
-
-### Version 1.2.1
-* Add support for [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
-* Fix build scripts so Javadoc JAR is properly created
-
-### Version 1.2.0
-* Made constant `DEFAULT_CSS` public
-* Changed internals to make it easier to read the change log from different sources
-* Added public method `getChangeLog(boolean)` that returns a list of `ReleaseItem`s
-* Changed minSdkVersion to 4
-* Switched to Gradle as build system
-* Added Greek, Spanish, Polish, and Russian translation
-
-### Version 1.1.0
-* Added method `skipLogDialog()`
-* Added Slovak and German translation
-
-### Version 1.0.0
-* **Breaking change!** Moved master translation from `res/raw/changelog.xml` to `res/xml/changelog_master.xml`
-* Added German translation of the sample app
-
-### Version 0.1
-* Initial release
-
 
 ## Acknowledgments
 
@@ -114,12 +89,12 @@ This library is based on:
 
 Other contributors:
 * [See here](https://github.com/cketti/ckChangeLog/graphs/contributors)
-* You? Please create pull requests against the [dev](https://github.com/cketti/ckChangeLog/tree/dev) branch
+* You? Create a [pull request](https://github.com/cketti/ckChangeLog/pulls).
 
 
 ## License
 
-    Copyright (C) 2012-2015 cketti and contributors
+    Copyright (C) 2012-2017 cketti and contributors
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

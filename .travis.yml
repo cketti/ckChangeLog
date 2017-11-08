@@ -1,0 +1,16 @@
+language: android
+android:
+  components:
+    - build-tools-23.0.3
+    - android-23
+    - extra-android-m2repository
+  licenses:
+    - 'android-sdk-license-.+'
+    
+jdk: oraclejdk8
+
+before_install:
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+
+script: ./gradlew assembleDebug testDebugUnitTest
