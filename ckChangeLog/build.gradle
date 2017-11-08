@@ -15,7 +15,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        versionName "1.2.2"
+        versionName "1.2.3"
 
         minSdkVersion 4
     }

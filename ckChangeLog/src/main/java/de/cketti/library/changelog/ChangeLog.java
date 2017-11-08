@@ -527,6 +527,7 @@ public class ChangeLog {
             versionCode = Integer.parseInt(versionCodeStr);
         } catch (NumberFormatException e) {
             versionCode = NO_VERSION;
+            full = true;
         }
 
         if (!full && versionCode <= mLastVersionCode) {
