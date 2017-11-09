@@ -18,6 +18,7 @@ package de.cketti.library.changelog;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -79,7 +80,7 @@ public final class XmlParser {
             throw new IllegalStateException(e);
         }
 
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     private boolean parseReleaseElement() throws XmlPullParserException, IOException {
