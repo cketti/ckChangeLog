@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cketti.library.changelog.dialog;
+package info.changelog.dialog;
 
-
-import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.webkit.WebView;
+
+import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 import de.cketti.library.changelog.ReleaseItem;
@@ -29,7 +29,7 @@ import de.cketti.library.changelog.ReleaseItem;
 
 /**
  * Display a dialog showing a full or partial (What's New) Change Log.
- *
+ * <p>
  * <p>
  * You can display a Change Log after app updates by putting the following code in your Activity's {@code onCreate()}
  * method:
@@ -51,8 +51,8 @@ public final class DialogChangeLog {
             "ul { padding-left: 2em; }";
 
 
-    private final Context context;
-    private final ChangeLog changeLog;
+    private final Context       context;
+    private final ChangeLog     changeLog;
     private final HtmlFormatter formatter;
 
 
@@ -90,8 +90,8 @@ public final class DialogChangeLog {
      * Get the "What's New" dialog.
      *
      * @return An AlertDialog displaying the changes since the previous installed version of your
-     *         app (What's New). But when this is the first run of your app including
-     *         {@code ChangeLog} then the full log dialog is show.
+     * app (What's New). But when this is the first run of your app including
+     * {@code ChangeLog} then the full log dialog is show.
      */
     public AlertDialog getLogDialog() {
         return getDialog(changeLog.isFirstRunEver());

@@ -19,7 +19,7 @@ allprojects {
 ext {
     propBuildToolsVersion = "26.0.2"
     propCompileSdkVersion = 26
-    libraryVersion = "2.0.0-SNAPSHOT"
+    libraryVersion = "2.0.1-SNAPSHOT"
 
     pom = [
             group: "de.cketti.library.changelog",

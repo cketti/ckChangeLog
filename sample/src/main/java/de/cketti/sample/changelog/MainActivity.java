@@ -1,13 +1,13 @@
 package de.cketti.sample.changelog;
 
-import de.cketti.library.changelog.dialog.DialogChangeLog;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import info.changelog.dialog.DialogChangeLog;
 
 
 public class MainActivity extends FragmentActivity {

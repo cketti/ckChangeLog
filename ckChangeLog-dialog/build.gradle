@@ -7,6 +7,7 @@ android {
     defaultConfig {
         versionName libraryVersion
         minSdkVersion 14
+        project.archivesBaseName = "ChangeLog"
     }
 }
 
@@ -14,7 +15,7 @@ dependencies {
     compile project(':ckChangeLog-core')
 }
 
-project.ext.pom = rootProject.pom
-project.ext.pom['artifactId'] = "ckchangelog-dialog"
+//project.ext.pom = rootProject.pom
+//project.ext.pom['artifactId'] = "ckchangelog-dialog"
 
-apply from: '../android-mvn-push.gradle'
+//apply from: '../android-mvn-push.gradle'

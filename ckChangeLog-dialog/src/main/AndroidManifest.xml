@@ -1,4 +1,6 @@
-<manifest package="de.cketti.library.changelog.dialog">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        package="info.changelog.dialog">
 
     <application/>
 
