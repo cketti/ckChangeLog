@@ -1,22 +1,24 @@
 buildscript {
     repositories {
+        google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
     }
 }
 
 ext {
-    propBuildToolsVersion = "23.0.3"
-    propCompileSdkVersion = 23
+    propBuildToolsVersion = "27.0.3"
+    propCompileSdkVersion = 27
     libraryVersion = "2.0.0-SNAPSHOT"
 
     pom = [

@@ -9,13 +9,13 @@ android {
         versionName "1.0"
 
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 27
     }
 }
 
 dependencies {
-    compile project(':ckChangeLog-dialog')
-    compile 'com.android.support:support-v4:21.0.3'
+    implementation project(':ckChangeLog-dialog')
+    implementation 'com.android.support:support-v4:27.1.0'
 }
 
 

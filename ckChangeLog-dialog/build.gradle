@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    compile project(':ckChangeLog-core')
+    implementation project(':ckChangeLog-core')
 }
 
 project.ext.pom = rootProject.pom
