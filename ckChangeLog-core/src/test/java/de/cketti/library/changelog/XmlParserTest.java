@@ -19,7 +19,6 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
 public class XmlParserTest {
     @Test
     public void parse_withEmptyChangeLog() throws Exception {

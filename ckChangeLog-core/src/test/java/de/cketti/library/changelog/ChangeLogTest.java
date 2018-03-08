@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
 public class ChangeLogTest {
     private static final int APP_VERSION_CODE = 3;
     private static final String APP_VERSION_NAME = "1.2";

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
 public class MergedChangeLogProviderTest {
     @Test
     public void getChangeLog_shouldReturnMergedChangeLog() throws Exception {
