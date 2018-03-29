@@ -89,7 +89,7 @@ public final class XmlParser {
         String version = parseVersionAttribute();
         int versionCode = parseVersionCodeAttribute();
         
-        if (lastVersionCode != NO_VERSION && versionCode <= lastVersionCode) {
+        if (lastVersionCode != NO_VERSION && versionCode <= lastVersionCode && versionCode != NO_VERSION) {
             return true;
         }
 
@@ -125,7 +125,7 @@ public final class XmlParser {
         try {
             return Integer.parseInt(versionCodeStr);
         } catch (NumberFormatException e) {
-            throw new InvalidChangeLogException("Invalid version code value: " + versionCodeStr);
+            return NO_VERSION;
         }
     }
 
