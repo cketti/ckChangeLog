@@ -34,6 +34,7 @@ public final class XmlParser {
     private static final String TAG_RELEASE = "release";
     private static final String ATTRIBUTE_VERSION = "version";
     private static final String ATTRIBUTE_VERSION_CODE = "versioncode";
+    private static final String ATTRIBUTE_DATE = "date";
     private static final String TAG_CHANGE = "change";
 
 
@@ -86,7 +87,8 @@ public final class XmlParser {
     private boolean parseReleaseElement() throws XmlPullParserException, IOException {
         assertElementStart(TAG_RELEASE);
 
-        String version = parseVersionAttribute();
+        String versionName = parseVersionAttribute();
+        String date = parseDateAttribute();
         int versionCode = parseVersionCodeAttribute();
         
         if (lastVersionCode != NO_VERSION && versionCode <= lastVersionCode) {
@@ -107,7 +109,7 @@ public final class XmlParser {
             throw new InvalidChangeLogException("<release> tag must contain at least one <change> element");
         }
         
-        ReleaseItem release = new ReleaseItem(versionCode, version, changes);
+        ReleaseItem release = new ReleaseItem(versionCode, versionName, date, changes);
         result.add(release);
 
         return false;
@@ -116,6 +118,10 @@ public final class XmlParser {
     private String parseVersionAttribute() {
         assertAttributePresent(ATTRIBUTE_VERSION);
         return xmlPullParser.getAttributeValue(null, ATTRIBUTE_VERSION);
+    }
+
+    private String parseDateAttribute() {
+        return xmlPullParser.getAttributeValue(null, ATTRIBUTE_DATE);
     }
 
     private int parseVersionCodeAttribute() {

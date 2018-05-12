@@ -30,14 +30,28 @@ public class XmlParserTest {
 
     @Test
     public void parse_withValidChangeLog() throws Exception {
-        XmlPullParser xmlPullParser = createParserForFile("/valid_sample_changelog.xml");
+        XmlPullParser xmlPullParser = createParserForFile("/valid_changelog_with_version_dates.xml");
         
         List<ReleaseItem> releaseItems = XmlParser.parse(xmlPullParser);
 
         assertEquals(new ChangeLogBuilder()
-                .addVersion(1, "1.0", "First release")
-                .addVersion(10, "2.0", "Fixed: A bug fix", "Some other changes I can't quite remember")
-                .addVersion(11, "2.1", "Totally new and shiny version")
+                .addVersion(1, "1.0.0", "2018-01-01", "First release")
+                .addVersion(2, "2.0.0", "2018-02-01", "Second release")
+                .addVersion(3, "3.0.0", "2018-03-01", "Third release")
+                .build(),
+                releaseItems);
+    }
+
+    @Test
+    public void parse_withValidChangeLogNotContainingDates() throws Exception {
+        XmlPullParser xmlPullParser = createParserForFile("/valid_changelog_without_version_dates.xml");
+
+        List<ReleaseItem> releaseItems = XmlParser.parse(xmlPullParser);
+
+        assertEquals(new ChangeLogBuilder()
+                .addVersion(1, "1.0", null, "First release")
+                .addVersion(10, "2.0", null, "Fixed: A bug fix", "Some other changes I can't quite remember")
+                .addVersion(11, "2.1", null, "Totally new and shiny version")
                 .build(),
                 releaseItems);
     }

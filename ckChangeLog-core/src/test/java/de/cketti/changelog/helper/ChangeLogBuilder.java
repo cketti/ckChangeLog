@@ -14,8 +14,8 @@ public class ChangeLogBuilder {
     private List<ReleaseItem> releaseItems = new ArrayList<>();
 
 
-    public ChangeLogBuilder addVersion(int versionCode, String versionName, String... changes) {
-        ReleaseItem releaseItem = ReleaseItem.newInstance(versionCode, versionName, asList(changes));
+    public ChangeLogBuilder addVersion(int versionCode, String versionName, String date, String... changes) {
+        ReleaseItem releaseItem = ReleaseItem.newInstance(versionCode, versionName, date, asList(changes));
         releaseItems.add(releaseItem);
         return this;
     }

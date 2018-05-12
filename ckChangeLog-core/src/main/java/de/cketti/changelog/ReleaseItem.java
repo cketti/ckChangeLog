@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.support.annotation.Nullable;
+
 import static de.cketti.changelog.Preconditions.checkNotNull;
 
 
@@ -38,19 +40,27 @@ public final class ReleaseItem {
     public final String versionName;
 
     /**
+     * Date of the release (optional).
+     */
+    @Nullable
+    public final String date;
+
+    /**
      * List of changes introduced with that release.
      */
     public final List<String> changes;
 
 
-    public static ReleaseItem newInstance(int versionCode, String versionName, List<String> changes) {
+    public static ReleaseItem newInstance(int versionCode, String versionName, @Nullable String date,
+            List<String> changes) {
         List<String> copiedChanges = new ArrayList<>(changes);
-        return new ReleaseItem(versionCode, versionName, copiedChanges);
+        return new ReleaseItem(versionCode, versionName, date, copiedChanges);
     }
 
-    ReleaseItem(int versionCode, String versionName, List<String> changes) {
+    ReleaseItem(int versionCode, String versionName, @Nullable String date, List<String> changes) {
         this.versionCode = versionCode;
         this.versionName = checkNotNull(versionName, "versionName == null");
+        this.date = date;
         this.changes = Collections.unmodifiableList(checkNotNull(changes, "changes == null"));
     }
 
@@ -59,6 +69,7 @@ public final class ReleaseItem {
         return "ReleaseItem{" +
                 "versionCode=" + versionCode +
                 ", versionName='" + versionName + '\'' +
+                ", date='" + date + '\'' +
                 ", changes=" + changes +
                 '}';
     }
@@ -80,14 +91,17 @@ public final class ReleaseItem {
         if (!versionName.equals(that.versionName)) {
             return false;
         }
+        if (date != null ? !date.equals(that.date) : that.date != null) {
+            return false;
+        }
         return changes.equals(that.changes);
-
     }
 
     @Override
     public int hashCode() {
         int result = versionCode;
         result = 31 * result + versionName.hashCode();
+        result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + changes.hashCode();
         return result;
     }

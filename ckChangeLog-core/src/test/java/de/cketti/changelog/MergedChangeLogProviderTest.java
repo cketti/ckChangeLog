@@ -19,13 +19,13 @@ public class MergedChangeLogProviderTest {
     @Test
     public void getChangeLog_shouldReturnMergedChangeLog() {
         ChangeLogProvider masterChangeLogProvider = new ChangeLogProviderBuilder()
-                .addVersion(1, "1.0", "First version")
-                .addVersion(2, "1.1", "Some new feature", "Small bugfix")
-                .addVersion(3, "1.2", "The latest change")
+                .addVersion(1, "1.0", null, "First version")
+                .addVersion(2, "1.1", "2000-01-01", "Some new feature", "Small bugfix")
+                .addVersion(3, "1.2", "2010-02-01", "The latest change")
                 .build();
         ChangeLogProvider localizedChangeLogProvider = new ChangeLogProviderBuilder()
-                .addVersion(1, "1.0", "Erste Version")
-                .addVersion(2, "1.1", "Neue Funktionalität", "Kleiner Fehlerbehebung")
+                .addVersion(1, "1.0", null, "Erste Version")
+                .addVersion(2, "1.1", "2000-01-01", "Neue Funktionalität", "Kleiner Fehlerbehebung")
                 .build();
         MergedChangeLogProvider changeLogProvider = 
                 new MergedChangeLogProvider(masterChangeLogProvider, localizedChangeLogProvider);
@@ -33,22 +33,22 @@ public class MergedChangeLogProviderTest {
         List<ReleaseItem> changeLog = changeLogProvider.getChangeLog();
         
         assertEquals(changeLog, new ChangeLogBuilder()
-                .addVersion(1, "1.0", "Erste Version")
-                .addVersion(2, "1.1", "Neue Funktionalität", "Kleiner Fehlerbehebung")
-                .addVersion(3, "1.2", "The latest change")
+                .addVersion(1, "1.0", null, "Erste Version")
+                .addVersion(2, "1.1", "2000-01-01", "Neue Funktionalität", "Kleiner Fehlerbehebung")
+                .addVersion(3, "1.2", "2010-02-01", "The latest change")
                 .build());
     }
 
     @Test
     public void getChangeLogSince_shouldReturnMergedChangeLog() {
         ChangeLogProvider masterChangeLogProvider = new ChangeLogProviderBuilder()
-                .addVersion(1, "1.0", "First version")
-                .addVersion(2, "1.1", "Some new feature", "Small bugfix")
-                .addVersion(3, "1.2", "The latest change")
+                .addVersion(1, "1.0", null, "First version")
+                .addVersion(2, "1.1", null, "Some new feature", "Small bugfix")
+                .addVersion(3, "1.2", null, "The latest change")
                 .build();
         ChangeLogProvider localizedChangeLogProvider = new ChangeLogProviderBuilder()
-                .addVersion(1, "1.0", "Erste Version")
-                .addVersion(2, "1.1", "Neue Funktionalität", "Kleiner Fehlerbehebung")
+                .addVersion(1, "1.0", null, "Erste Version")
+                .addVersion(2, "1.1", null, "Neue Funktionalität", "Kleiner Fehlerbehebung")
                 .build();
         MergedChangeLogProvider changeLogProvider = 
                 new MergedChangeLogProvider(masterChangeLogProvider, localizedChangeLogProvider);
@@ -56,8 +56,8 @@ public class MergedChangeLogProviderTest {
         List<ReleaseItem> changeLog = changeLogProvider.getChangeLogSince(1);
         
         assertEquals(changeLog, new ChangeLogBuilder()
-                .addVersion(2, "1.1", "Neue Funktionalität", "Kleiner Fehlerbehebung")
-                .addVersion(3, "1.2", "The latest change")
+                .addVersion(2, "1.1", null, "Neue Funktionalität", "Kleiner Fehlerbehebung")
+                .addVersion(3, "1.2", null, "The latest change")
                 .build());
     }
 
