@@ -14,7 +14,7 @@ android {
 }
 
 dependencies {
-    implementation project(':ckChangeLog-dialog')
+    implementation project(':ckChangeLog-legacy-dialog')
     implementation 'com.android.support:support-v4:27.1.1'
 }
 

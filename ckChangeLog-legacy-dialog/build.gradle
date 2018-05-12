@@ -15,6 +15,6 @@ dependencies {
 }
 
 project.ext.pom = rootProject.pom
-project.ext.pom['artifactId'] = "ckchangelog-dialog"
+project.ext.pom['artifactId'] = "ckchangelog-legacy-dialog"
 
 apply from: '../android-mvn-push.gradle'
