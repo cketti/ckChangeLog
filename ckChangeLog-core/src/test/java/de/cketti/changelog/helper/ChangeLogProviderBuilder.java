@@ -1,11 +1,11 @@
-package de.cketti.library.changelog.helper;
+package de.cketti.changelog.helper;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cketti.library.changelog.ChangeLogProvider;
-import de.cketti.library.changelog.ReleaseItem;
+import de.cketti.changelog.ChangeLogProvider;
+import de.cketti.changelog.ReleaseItem;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;

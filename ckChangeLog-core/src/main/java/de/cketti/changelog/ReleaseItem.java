@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cketti.library.changelog;
+package de.cketti.changelog;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static de.cketti.library.changelog.Preconditions.checkNotNull;
+import static de.cketti.changelog.Preconditions.checkNotNull;
 
 
 /**

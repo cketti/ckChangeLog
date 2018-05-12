@@ -1,10 +1,10 @@
-package de.cketti.library.changelog.helper;
+package de.cketti.changelog.helper;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cketti.library.changelog.ReleaseItem;
+import de.cketti.changelog.ReleaseItem;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 import static java.util.Arrays.asList;

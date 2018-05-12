@@ -1,6 +1,6 @@
 package de.cketti.sample.changelog;
 
-import de.cketti.library.changelog.dialog.DialogChangeLog;
+import de.cketti.changelog.dialog.DialogChangeLog;
 
 import android.content.Context;
 import android.os.Bundle;

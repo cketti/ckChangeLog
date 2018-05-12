@@ -1,10 +1,10 @@
-package de.cketti.library.changelog;
+package de.cketti.changelog;
 
 
 import java.io.InputStream;
 import java.util.List;
 
-import de.cketti.library.changelog.helper.ChangeLogBuilder;
+import de.cketti.changelog.helper.ChangeLogBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

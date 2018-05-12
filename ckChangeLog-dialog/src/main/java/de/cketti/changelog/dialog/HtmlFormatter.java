@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.cketti.library.changelog.dialog;
+package de.cketti.changelog.dialog;
 
 
 import java.util.List;
 
-import de.cketti.library.changelog.ReleaseItem;
+import de.cketti.changelog.ReleaseItem;
 
 
 class HtmlFormatter {

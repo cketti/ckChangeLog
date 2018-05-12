@@ -31,7 +31,7 @@
  *
  * http://code.google.com/p/android-change-log/
  */
-package de.cketti.library.changelog;
+package de.cketti.changelog;
 
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.cketti.library.changelog;
+package de.cketti.changelog;
 
 
 import java.util.ArrayList;
