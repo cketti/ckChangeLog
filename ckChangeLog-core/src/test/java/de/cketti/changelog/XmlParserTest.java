@@ -8,9 +8,9 @@ import de.cketti.changelog.helper.ChangeLogBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.xmlpull.mxp1.MXParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -140,8 +140,8 @@ public class XmlParserTest {
     }
 
     private XmlPullParser createParserForFile(String resourceName) throws XmlPullParserException {
+        XmlPullParser xmlPullParser = XmlPullParserFactory.newInstance().newPullParser();
         InputStream inputStream = getClass().getResourceAsStream(resourceName);
-        MXParser xmlPullParser = new MXParser();
         xmlPullParser.setInput(inputStream, "utf-8");
         return xmlPullParser;
     }

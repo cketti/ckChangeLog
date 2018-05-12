@@ -40,6 +40,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -82,8 +83,9 @@ public final class ChangeLog {
      *
      */
     public static ChangeLog newInstance(Context context, SharedPreferences preferences) {
-        ChangeLogProvider masterChangeLogProvider = new ResourceChangeLogProvider(context, R.xml.changelog_master);
-        ChangeLogProvider localizedChangeLogProvider = new ResourceChangeLogProvider(context, R.xml.changelog);
+        Resources resources = context.getResources();
+        ChangeLogProvider masterChangeLogProvider = new ResourceChangeLogProvider(resources, R.raw.changelog_master);
+        ChangeLogProvider localizedChangeLogProvider = new ResourceChangeLogProvider(resources, R.raw.changelog);
         ChangeLogProvider changeLogProvider = new MergedChangeLogProvider(
                 masterChangeLogProvider, localizedChangeLogProvider);
 
