@@ -8,7 +8,6 @@ import de.cketti.changelog.helper.ChangeLogProviderBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(RobolectricTestRunner.class)
 public class MergedChangeLogProviderTest {
     @Test
-    public void getChangeLog_shouldReturnMergedChangeLog() throws Exception {
+    public void getChangeLog_shouldReturnMergedChangeLog() {
         ChangeLogProvider masterChangeLogProvider = new ChangeLogProviderBuilder()
                 .addVersion(1, "1.0", "First version")
                 .addVersion(2, "1.1", "Some new feature", "Small bugfix")
@@ -41,7 +40,7 @@ public class MergedChangeLogProviderTest {
     }
 
     @Test
-    public void getChangeLogSince_shouldReturnMergedChangeLog() throws Exception {
+    public void getChangeLogSince_shouldReturnMergedChangeLog() {
         ChangeLogProvider masterChangeLogProvider = new ChangeLogProviderBuilder()
                 .addVersion(1, "1.0", "First version")
                 .addVersion(2, "1.1", "Some new feature", "Small bugfix")
@@ -63,7 +62,7 @@ public class MergedChangeLogProviderTest {
     }
 
     @Test
-    public void constructor_withFirstArgumentNull_shouldThrow() throws Exception {
+    public void constructor_withFirstArgumentNull_shouldThrow() {
         ChangeLogProvider changeLogProvider = mock(ChangeLogProvider.class);
         
         try {
@@ -75,7 +74,7 @@ public class MergedChangeLogProviderTest {
     }
 
     @Test
-    public void constructor_withSecondArgumentNull_shouldThrow() throws Exception {
+    public void constructor_withSecondArgumentNull_shouldThrow() {
         ChangeLogProvider changeLogProvider = mock(ChangeLogProvider.class);
         
         try {

@@ -153,7 +153,7 @@ public final class XmlParser {
         }
     }
 
-    private void assertElementStart(String expectedElementName) throws XmlPullParserException, IOException {
+    private void assertElementStart(String expectedElementName) {
         String tagName = xmlPullParser.getName();
         if (!expectedElementName.equals(tagName)) {
             throw new InvalidChangeLogException(
