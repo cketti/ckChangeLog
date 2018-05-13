@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2017 cketti and contributors
+ * Copyright (C) 2012-2018 cketti and contributors
  * https://github.com/cketti/ckChangeLog/graphs/contributors
  *
  * Portions Copyright (C) 2012 Martin van Zuilekom (http://martin.cubeactive.com)
