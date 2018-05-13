@@ -21,7 +21,7 @@ Repository at <https://github.com/cketti/ckChangeLog>.
 
 ## Usage
 
-1. Create the master change log in `res/xml/changelog_master.xml`. Formatted like this:
+1. Create the master change log in `res/raw/changelog_master.xml`. Formatted like this:
 
   ```xml
   <?xml version="1.0" encoding="utf-8"?>
@@ -40,7 +40,7 @@ Repository at <https://github.com/cketti/ckChangeLog>.
   ```
 
 2. Create translations of this `changelog_master.xml` file in files named `changelog.xml` under
-language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
+language-specific versions of `res/raw/`, e.g. `res/raw-de/changelog.xml`.
 
 3. Display the change log dialog by putting the following code in your Activity's `onCreate()` method:
 
@@ -53,21 +53,16 @@ language-specific versions of `res/xml/`, e.g. `res/xml-de/changelog.xml`.
 
 ## Include the library
 
-The easiest way to add ckChangeLog to your project is via Gradle. Just add the following lines to your `build.gradle`:
+Add the following lines to your `build.gradle` file:
 
 ```groovy
 dependencies {
-    compile 'de.cketti.library.changelog:ckchangelog-dialog:2.0.0'
+    compile 'de.cketti.library.changelog:ckchangelog-legacy-dialog:2.0.0'
 }
 ```
 
-To tell Gradle where to find the library, make sure `build.gradle` also contains this:
-
-```groovy
-repositories {
-    mavenCentral()
-}
-```
+The library is uploaded to Maven Central and should be mirrored by JCenter. Make sure your `repositories` block
+contains either `mavenCentral()` or `jcenter()`.
 
 ## Customize labels
 
