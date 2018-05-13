@@ -195,6 +195,8 @@ public final class ChangeLog {
      * </p>
      */
     public void writeCurrentVersion() {
+        lastVersionCode = currentVersionCode;
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(VERSION_KEY, currentVersionCode);
         editor.apply();

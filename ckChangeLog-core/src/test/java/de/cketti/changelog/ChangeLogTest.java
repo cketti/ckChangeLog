@@ -93,6 +93,17 @@ public class ChangeLogTest {
     }
 
     @Test
+    public void isFirstRun_afterCallingWriteCurrentVersion_shouldReturnFalse() {
+        setLastVersionCode(1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        changeLog.writeCurrentVersion();
+
+        boolean firstRun = changeLog.isFirstRun();
+
+        assertFalse(firstRun);
+    }
+
+    @Test
     public void isFirstRunEver_withLastVersionCodeSet_shouldReturnFalse() {
         setLastVersionCode(1);
         ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
@@ -110,6 +121,17 @@ public class ChangeLogTest {
         boolean firstRunEver = changeLog.isFirstRunEver();
 
         assertTrue(firstRunEver);
+    }
+
+    @Test
+    public void isFirstRunEver_afterCallingWriteCurrentVersion_shouldReturnFalse() {
+        setLastVersionCode(-1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        changeLog.writeCurrentVersion();
+
+        boolean firstRunEver = changeLog.isFirstRunEver();
+
+        assertFalse(firstRunEver);
     }
 
     @Test
