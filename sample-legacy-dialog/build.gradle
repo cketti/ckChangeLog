@@ -1,0 +1,21 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion propCompileSdkVersion
+    buildToolsVersion propBuildToolsVersion
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+        minSdkVersion 14
+        targetSdkVersion 27
+    }
+}
+
+dependencies {
+    implementation project(':ckChangeLog-legacy-dialog')
+    implementation 'com.android.support:support-v4:27.1.1'
+}
+
+

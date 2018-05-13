@@ -1,0 +1,199 @@
+package de.cketti.changelog;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+
+@RunWith(RobolectricTestRunner.class)
+public class ChangeLogTest {
+    private static final int APP_VERSION_CODE = 3;
+    private static final String APP_VERSION_NAME = "1.2";
+    private static final String APP_PACKAGE_NAME = "org.example.app";
+
+
+    private Context context;
+    private SharedPreferences preferences;
+    private ChangeLogProvider changeLogProvider;
+
+
+    @Before
+    public void setUp() throws Exception {
+        context = createContext();
+        preferences = createSharedPreferences();
+        changeLogProvider = createChangeLogProvider();
+    }
+
+    @Test
+    public void getLastVersionCode() {
+        setLastVersionCode(2);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+
+        int lastVersionCode = changeLog.getLastVersionCode();
+        
+        assertEquals(2, lastVersionCode);
+    }
+
+    @Test
+    public void getCurrentVersionCode() {
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+
+        int currentVersionCode = changeLog.getCurrentVersionCode();
+        
+        assertEquals(APP_VERSION_CODE, currentVersionCode);
+    }
+
+    @Test
+    public void getCurrentVersionName() {
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+
+        String currentVersionName = changeLog.getCurrentVersionName();
+        
+        assertEquals(APP_VERSION_NAME, currentVersionName);
+    }
+
+    @Test
+    public void isFirstRun_withLastVersionCodeSmallerThanCurrentVersion_shouldReturnTrue() {
+        setLastVersionCode(1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        
+        boolean firstRun = changeLog.isFirstRun();
+
+        assertTrue(firstRun);
+    }
+
+    @Test
+    public void isFirstRun_withLastVersionCodeEqualToCurrentVersion_shouldReturnFalse() {
+        setLastVersionCode(APP_VERSION_CODE);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        
+        boolean firstRun = changeLog.isFirstRun();
+
+        assertFalse(firstRun);
+    }
+
+    @Test
+    public void isFirstRun_afterCallingWriteCurrentVersion_shouldReturnFalse() {
+        setLastVersionCode(1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        changeLog.writeCurrentVersion();
+
+        boolean firstRun = changeLog.isFirstRun();
+
+        assertFalse(firstRun);
+    }
+
+    @Test
+    public void isFirstRunEver_withLastVersionCodeSet_shouldReturnFalse() {
+        setLastVersionCode(1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        
+        boolean firstRunEver = changeLog.isFirstRunEver();
+
+        assertFalse(firstRunEver);
+    }
+
+    @Test
+    public void isFirstRunEver_withLastVersionCodeUnset_shouldReturnTrue() {
+        setLastVersionCode(-1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        
+        boolean firstRunEver = changeLog.isFirstRunEver();
+
+        assertTrue(firstRunEver);
+    }
+
+    @Test
+    public void isFirstRunEver_afterCallingWriteCurrentVersion_shouldReturnFalse() {
+        setLastVersionCode(-1);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        changeLog.writeCurrentVersion();
+
+        boolean firstRunEver = changeLog.isFirstRunEver();
+
+        assertFalse(firstRunEver);
+    }
+
+    @Test
+    public void writeCurrentVersion() {
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        
+        changeLog.writeCurrentVersion();
+
+        int lastVersionCode = preferences.getInt("ckChangeLog_last_version_code", -1);
+        assertEquals(APP_VERSION_CODE, lastVersionCode);
+    }
+
+    @Test
+    public void getChangeLog_shouldReturnDataFromChangeLogProvider() {
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        List<ReleaseItem> releaseItemsToReturn = new ArrayList<>();
+        when(changeLogProvider.getChangeLog()).thenReturn(releaseItemsToReturn);
+
+        List<ReleaseItem> releaseItems = changeLog.getChangeLog();
+
+        assertSame(releaseItemsToReturn, releaseItems);
+    }
+
+    @Test
+    public void getRecentChanges_shouldReturnDataFromChangeLogProvider() {
+        setLastVersionCode(2);
+        ChangeLog changeLog = ChangeLog.newInstance(context, preferences, changeLogProvider);
+        List<ReleaseItem> releaseItemsToReturn = new ArrayList<>();
+        when(changeLogProvider.getChangeLogSince(2)).thenReturn(releaseItemsToReturn);
+
+        List<ReleaseItem> releaseItems = changeLog.getRecentChanges();
+
+        assertSame(releaseItemsToReturn, releaseItems);
+    }
+
+    private void setLastVersionCode(int lastVersionCode) {
+        preferences.edit().putInt("ckChangeLog_last_version_code", lastVersionCode).apply();
+    }
+
+    private Context createContext() throws Exception {
+        PackageInfo packageInfo = new PackageInfo();
+        packageInfo.versionCode = APP_VERSION_CODE;
+        packageInfo.versionName = APP_VERSION_NAME;
+        
+        PackageManager packageManager = mock(PackageManager.class);
+        //noinspection WrongConstant
+        when(packageManager.getPackageInfo(anyString(), anyInt())).thenReturn(packageInfo);
+        
+        Context context = mock(Context.class);
+        when(context.getPackageName()).thenReturn(APP_PACKAGE_NAME);
+        when(context.getPackageManager()).thenReturn(packageManager);
+        return context;
+    }
+
+    private SharedPreferences createSharedPreferences() {
+        Context context = RuntimeEnvironment.application;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("test", Context.MODE_PRIVATE); 
+        sharedPreferences.edit().clear().apply();
+        return sharedPreferences;
+    }
+
+    private ChangeLogProvider createChangeLogProvider() {
+        return mock(ChangeLogProvider.class);
+    }
+}

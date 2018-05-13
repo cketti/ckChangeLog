@@ -1,10 +1,15 @@
 language: android
 android:
- components:
-    - build-tools-21.1.2
-    - android-21
+  components:
+    - build-tools-27.0.3
+    - android-27
     - extra-android-m2repository
+  licenses:
+    - 'android-sdk-license-.+'
+    
+jdk: oraclejdk8
 
-jdk: oraclejdk7
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
-script: ./gradlew build
+script: ./gradlew assembleDebug testDebugUnitTest

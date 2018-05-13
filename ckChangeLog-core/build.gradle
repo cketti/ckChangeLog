@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion propCompileSdkVersion
+    buildToolsVersion propBuildToolsVersion
+
+    defaultConfig {
+        versionName libraryVersion
+        minSdkVersion 14
+
+        resValue "string", "library_ckChangeLog_libraryVersion", libraryVersion
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-annotations:27.1.1'
+
+    testImplementation 'org.robolectric:robolectric:3.7.1'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.18.0'
+}
+
+project.ext.pom = rootProject.pom
+project.ext.pom['artifactId'] = "ckchangelog-core"
+
+apply from: '../android-mvn-push.gradle'
+

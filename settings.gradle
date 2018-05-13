@@ -1,2 +1,3 @@
-include ':ckChangeLog'
-include ':sample'
+include ':ckChangeLog-core'
+include ':ckChangeLog-legacy-dialog'
+include ':sample-legacy-dialog'

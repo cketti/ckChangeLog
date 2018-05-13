@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion propCompileSdkVersion
+    buildToolsVersion propBuildToolsVersion
+
+    defaultConfig {
+        versionName libraryVersion
+        minSdkVersion 14
+    }
+}
+
+dependencies {
+    implementation project(':ckChangeLog-core')
+}
+
+project.ext.pom = rootProject.pom
+project.ext.pom['artifactId'] = "ckchangelog-legacy-dialog"
+
+apply from: '../android-mvn-push.gradle'

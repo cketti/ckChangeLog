@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+
+    <release version="3.0.0" versioncode="3" date="2018-03-01">
+        <change>Third release</change>
+    </release>
+
+    <release version="2.0.0" versioncode="2" date="2018-02-01">
+        <change>Second release</change>
+    </release>
+
+    <release version="1.0.0" versioncode="1" date="2018-01-01">
+        <change>First release</change>
+    </release>
+
+</changelog>
