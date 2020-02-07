@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="changelog_full_title">Seznam změn</string>
-    <string name="changelog_title">Co je nové</string>
-    <string name="changelog_ok_button">OK</string>
-    <string name="changelog_show_full">Více…</string>
-
-    <string name="changelog_version_format">Verze <xliff:g id="version_name">%s</xliff:g></string>
-</resources>
