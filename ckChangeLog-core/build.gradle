@@ -10,14 +10,16 @@ android {
 
         resValue "string", "library_ckChangeLog_libraryVersion", libraryVersion
     }
+
+    testOptions.unitTests.includeAndroidResources = true
 }
 
 dependencies {
     api 'androidx.annotation:annotation:1.1.0'
 
-    testImplementation 'org.robolectric:robolectric:3.7.1'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.18.0'
+    testImplementation 'org.mockito:mockito-core:3.2.4'
 }
 
 project.ext.pom = rootProject.pom
