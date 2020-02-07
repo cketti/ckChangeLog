@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import static de.cketti.changelog.Preconditions.checkNotNull;
 

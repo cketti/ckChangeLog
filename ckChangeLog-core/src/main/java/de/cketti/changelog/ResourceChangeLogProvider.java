@@ -21,8 +21,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import android.content.res.Resources;
-import android.support.annotation.IdRes;
-import android.support.annotation.RawRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.RawRes;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
