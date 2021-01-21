@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.vanniktech.maven.publish'
 
 android {
     compileSdkVersion propCompileSdkVersion
@@ -21,9 +22,3 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:3.2.4'
 }
-
-project.ext.pom = rootProject.pom
-project.ext.pom['artifactId'] = "ckchangelog-core"
-
-apply from: '../android-mvn-push.gradle'
-
