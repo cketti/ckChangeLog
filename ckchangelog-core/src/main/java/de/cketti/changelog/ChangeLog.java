@@ -50,13 +50,15 @@ import android.util.Log;
  */
 public final class ChangeLog {
     private static final String LOG_TAG = "ckChangeLog";
-    private static final String VERSION_KEY = "ckChangeLog_last_version_code";
+    private static final String FIRST_VERSION_KEY = "ckChangeLog_first_version_code";
+    private static final String LAST_VERSION_KEY = "ckChangeLog_last_version_code";
     private static final int NO_VERSION = -1;
 
 
     private final Context context;
     private final SharedPreferences preferences;
     private final ChangeLogProvider changeLogProvider;
+    private int firstVersionCode;
     private int lastVersionCode;
     private int currentVersionCode;
     private String currentVersionName;
@@ -118,7 +120,8 @@ public final class ChangeLog {
     }
 
     private void init() {
-        lastVersionCode = preferences.getInt(VERSION_KEY, NO_VERSION);
+        firstVersionCode = preferences.getInt(FIRST_VERSION_KEY, NO_VERSION);
+        lastVersionCode = preferences.getInt(LAST_VERSION_KEY, NO_VERSION);
 
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -128,6 +131,14 @@ public final class ChangeLog {
         } catch (NameNotFoundException e) {
             currentVersionCode = NO_VERSION;
             Log.e(LOG_TAG, "Could not get version information from manifest!", e);
+        }
+
+        if (firstVersionCode == NO_VERSION) {
+            firstVersionCode = lastVersionCode != NO_VERSION ? lastVersionCode : currentVersionCode;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(FIRST_VERSION_KEY, firstVersionCode);
+            editor.putInt(LAST_VERSION_KEY, firstVersionCode);
+            editor.apply();
         }
     }
 
@@ -183,7 +194,7 @@ public final class ChangeLog {
      *         Also {@code true} if your app was uninstalled and installed again.
      */
     public boolean isFirstRunEver() {
-        return lastVersionCode == NO_VERSION;
+        return firstVersionCode == currentVersionCode;
     }
 
     /**
@@ -198,7 +209,7 @@ public final class ChangeLog {
         lastVersionCode = currentVersionCode;
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(VERSION_KEY, currentVersionCode);
+        editor.putInt(LAST_VERSION_KEY, currentVersionCode);
         editor.apply();
     }
 
